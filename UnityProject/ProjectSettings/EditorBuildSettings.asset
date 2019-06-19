@@ -9,5 +9,7 @@ EditorBuildSettings:
     path: Assets/DanWork/Scenes/ShoppingScene.unity
     guid: 5a078843b61a34f608a8abe33732f760
   m_configObjects:
+    com.unity.xr.arcore.PlayerSettings: {fileID: 11400000, guid: 1199952f8e8ac45439a60b97c13e9394,
+      type: 2}
     com.unity.xr.arkit.PlayerSettings: {fileID: 11400000, guid: 2d5fb8e61571b4e3897f221189089fd6,
       type: 2}
