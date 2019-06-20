@@ -1,1 +1,3 @@
 include ':app'
+include ':unityLibrary'
+project(':unityLibrary').projectDir = new File('..\\UnityAndroidLibrary\\unityLibrary')
