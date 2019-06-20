@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/DanWork/Scenes/ShoppingScene.unity
+    path: Assets/Scenes/ShoppingScene.unity
     guid: 5a078843b61a34f608a8abe33732f760
   m_configObjects:
     com.unity.xr.arcore.PlayerSettings: {fileID: 11400000, guid: 1199952f8e8ac45439a60b97c13e9394,

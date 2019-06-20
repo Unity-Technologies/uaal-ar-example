@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ObjectPlacementHandler : MonoBehaviour
 {
@@ -29,7 +27,7 @@ public class ObjectPlacementHandler : MonoBehaviour
         m_Dist = Vector3.Distance(m_Device.transform.position, posePosition);
         m_HeightDiff = m_Device.transform.position.y - posePosition.y;
 
-        Debug.Log(m_HeightDiff +" HIEGHT DIFF");
+        Debug.Log(m_HeightDiff + " HIEGHT DIFF");
         
         if (m_HeightDiff > k_MaxRange)
         {
