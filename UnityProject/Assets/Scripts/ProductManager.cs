@@ -29,7 +29,7 @@ public class ProductManager : MonoBehaviour
     };
     
     private static readonly Color k_White = Color.white;
-    private static readonly Color k_Magenta = new Color(0.929f,0.094f,0.278f);
+    private static readonly Color k_Magenta = new Color(0.929f, 0.094f, 0.278f);
     private static readonly Color k_Cyan = new Color(0.019f, 0.733f, 0.827f);
     private static readonly Color k_Lime = new Color(0.796f, 0.858f, 0.164f);
 
@@ -107,7 +107,7 @@ public class ProductManager : MonoBehaviour
         m_SelectedIndex = productNumber;
         var selectedObject = m_ArObjects[m_SelectedIndex];
 
-        m_PlaceSingleObjectOnPlane.placedPrefab = selectedObject.m_Prefab;
+        m_PlaceSingleObjectOnPlane.SetObjectPrefab(selectedObject.m_Prefab);
         m_ProductText.text = selectedObject.m_Name;
     }
    

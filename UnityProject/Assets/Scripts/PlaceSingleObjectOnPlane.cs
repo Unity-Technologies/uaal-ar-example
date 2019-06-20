@@ -14,7 +14,7 @@ public class PlaceSingleObjectOnPlane : MonoBehaviour
     /// <summary>
     /// The prefab to instantiate on touch.
     /// </summary>
-    public GameObject placedPrefab { get; set; }
+    public GameObject placedPrefab { get; private set; }
 
     /// <summary>
     /// The object instantiated as a result of a successful raycast intersection with a plane.
@@ -74,6 +74,24 @@ public class PlaceSingleObjectOnPlane : MonoBehaviour
 
                 ObjectPlaced?.Invoke(objectPlacementHandler);
             }
+        }
+    }
+
+    public void SetObjectPrefab(GameObject newPrefab)
+    {
+        if (newPrefab == placedPrefab)
+        {
+            return;
+        }
+
+        placedPrefab = newPrefab;
+
+        if (spawnedObject == null)
+        {
+            // Destroy existing object
+            Destroy(spawnedObject);
+            
+            ObjectPlaced?.Invoke(null);
         }
     }
     

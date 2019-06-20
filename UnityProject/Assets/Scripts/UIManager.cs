@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
     {
         if (m_CameraManager != null)
         {
-            m_CameraManager.frameReceived += FrameChanged;
+            m_CameraManager.frameReceived += OnFrameChanged;
         }
 
         if (m_ObjectPlacer != null)
@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour
     {
         if (m_CameraManager != null)
         {
-            m_CameraManager.frameReceived -= FrameChanged;
+            m_CameraManager.frameReceived -= OnFrameChanged;
         }
 
         if (m_ObjectPlacer != null)
@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void FrameChanged(ARCameraFrameEventArgs args)
+    private void OnFrameChanged(ARCameraFrameEventArgs frameEventArgs)
     {
         if (PlanesFound() && m_ShowingMoveDevice)
         {
@@ -82,14 +82,40 @@ public class UIManager : MonoBehaviour
 
     private void OnObjectPlaced(ObjectPlacementHandler placedObject)
     {
-        if (m_ShowingTapToPlace)
+        if (placedObject != null)
         {
-            if (m_TapToPlaceAnimation)
+            if (m_ShowingTapToPlace)
             {
-                m_TapToPlaceAnimation.SetTrigger(k_FadeOffAnim);
+                if (m_TapToPlaceAnimation)
+                {
+                    m_TapToPlaceAnimation.SetTrigger(k_FadeOffAnim);
+                }
+
+                m_ShowingTapToPlace = false;
+            }
+        }
+        else
+        {
+            // Show tap to place again
+            if (!m_ShowingTapToPlace)
+            {
+                if (m_TapToPlaceAnimation)
+                {
+                    m_TapToPlaceAnimation.SetTrigger(k_FadeOnAnim);
+                }
+
+                m_ShowingTapToPlace = true;
             }
 
-            m_ShowingTapToPlace = false;
+            if (m_ShowingMoveDevice)
+            {
+                if (m_MoveDeviceAnimation)
+                {
+                    m_MoveDeviceAnimation.SetTrigger(k_FadeOffAnim);
+                }
+
+                m_ShowingMoveDevice = false;
+            }
         }
     }
 }
