@@ -1,70 +1,63 @@
 package com.unity.mynativeapp;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 
 import com.company.product.OverrideUnityActivity;
 
 public class MainUnityActivity extends OverrideUnityActivity {
-    // Setup activity layout
+
+    public static int CurrentSelectedItem;
+    public static int CurrentSelectedItemConfig;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addControlsToUnityFrame();
     }
 
-    public static String setToColor = "default";
     @Override
-    protected void showMainActivity(String aSetToColor) {
+    protected void showMainActivity(String string) {
         Intent intent = new Intent(this, MainActivity.class);
-        setToColor = aSetToColor;
         startActivity(intent);
     }
 
     public void addControlsToUnityFrame() {
-        {
-            Button myButton = new Button(this);
-            myButton.setText("Show Main");
-            myButton.setX(10);
-            myButton.setY(500);
+            Button backButton = new Button(this);
+            backButton.setText("Back");
+            backButton.setX(10);
+            backButton.setY(10);
 
-            myButton.setOnClickListener(new View.OnClickListener() {
+            backButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                   showMainActivity("");
+                    showMainActivity("");
                 }
             });
-            getUnityFrameLayout().addView(myButton, 300, 200);
-        }
+            getUnityFrameLayout().addView(backButton, 300, 200);
 
-        {
-            Button myButton = new Button(this);
-            myButton.setText("Send Msg");
-            myButton.setX(320);
-            myButton.setY(500);
-            myButton.setOnClickListener( new View.OnClickListener() {
+            Display display = getWindowManager(). getDefaultDisplay();
+            Point point = new Point();
+            display.getSize(point);
+
+            Button colorButton = new Button(this);
+            colorButton.setText("Color");
+            colorButton.setX(point.x - 310);
+            colorButton.setY(10);
+            colorButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    UnitySendMessage("Cube", "ChangeColor", "yellow");
+                    CurrentSelectedItemConfig = (CurrentSelectedItemConfig + 1) % MainActivity.NumberOfColors;
+                    UpdateUnityShopItem();
                 }
             });
-            getUnityFrameLayout().addView(myButton, 300, 200);
-        }
-
-        {
-            Button myButton = new Button(this);
-            myButton.setText("Unload");
-            myButton.setX(630);
-            myButton.setY(500);
-
-            myButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-            getUnityFrameLayout().addView(myButton, 300, 200);
-        }
+            getUnityFrameLayout().addView(colorButton, 300, 200);
     }
 
-
+    private void UpdateUnityShopItem() {
+        UnitySendMessage("AR Session Origin", "SetProduct", Integer.toString(CurrentSelectedItem ));
+        UnitySendMessage("AR Session Origin", "SetColor", MainActivity.ColorsStrings[CurrentSelectedItemConfig]);
+    }
 }
