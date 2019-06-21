@@ -123,4 +123,23 @@ public class ProductManager : MonoBehaviour
             m_CurrentObject.objectMat.color = GetColor(m_CurrentColor);
         }
     }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (hasFocus)
+        {
+#if UNITY_ANDROID
+            try
+            {
+                AndroidJavaClass jc = new AndroidJavaClass("com.company.product.OverrideUnityActivity");
+                AndroidJavaObject overrideActivity = jc.GetStatic<AndroidJavaObject>("instance");
+                overrideActivity.Call("UpdateUnityShopItem");
+            } 
+            catch(Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
+#endif
+        }
+    }
 }
