@@ -10,16 +10,32 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
 {
-    private int[] itemConfigs  = new int[2];
+    static int CurrentSelectedItem;
+    static int[] ItemConfigs = new int[2];
 
-    public static int[] Colors = {Color.parseColor("#FFFFFF"),
+    static int[] Colors = {Color.parseColor("#FFFFFF"),
                                 Color.parseColor("#EC1746"),
                                 Color.parseColor("#04BAD2"),
                                 Color.parseColor("#CADA29")};
 
-    public static String[] ColorsStrings = {"White", "Magenta", "Cyan", "Lime"};
+    static String[] ColorsStrings = {"White", "Magenta", "Cyan", "Lime"};
 
-    public static int NumberOfColors = 4;
+    static int NumberOfColors = 4;
+
+    public static int GetColorForCurrent()
+    {
+        return Colors[ItemConfigs[CurrentSelectedItem]];
+    }
+
+    public static String GetColorStringForCurrent()
+    {
+        return ColorsStrings[ItemConfigs[CurrentSelectedItem]];
+    }
+
+    public static void IncCurrentConfig()
+    {
+        ItemConfigs[CurrentSelectedItem] = (ItemConfigs[CurrentSelectedItem] + 1) % MainActivity.NumberOfColors;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +45,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        View v = findViewById(R.id.previewbutton0);
-        v.setOnClickListener(new View.OnClickListener() {
+        View v0 = findViewById(R.id.previewbutton0);
+        v0.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 selectShopItem(0);
             }
         });
 
-        View v2 = findViewById(R.id.previewbutton1);
-        v2.setOnClickListener(new View.OnClickListener() {
+        View v1 = findViewById(R.id.previewbutton1);
+        v1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 selectShopItem(1);
             }
@@ -49,6 +65,7 @@ public class MainActivity extends AppCompatActivity
                 IncConfig(0);
             }
         });
+        imageView0.setBackgroundColor(Colors[ItemConfigs[0]]);
 
         View imageView1 = findViewById(R.id.imageView1);
         imageView1.setOnClickListener(new View.OnClickListener() {
@@ -56,21 +73,21 @@ public class MainActivity extends AppCompatActivity
                 IncConfig(1);
             }
         });
+        imageView1.setBackgroundColor(Colors[ItemConfigs[1]]);
     }
 
     private void selectShopItem(int i)
     {
-        MainUnityActivity.CurrentSelectedItem = i;
-        MainUnityActivity.CurrentSelectedItemConfig = itemConfigs[i];
+        CurrentSelectedItem = i;
         Intent intent = new Intent(this, MainUnityActivity.class);
         startActivity(intent);
     }
 
     private void IncConfig(int i)
     {
-        itemConfigs[i] = (itemConfigs[i] + 1) % NumberOfColors;
+        ItemConfigs[i] = (ItemConfigs[i] + 1) % NumberOfColors;
         View v = findViewById(i == 0 ? R.id.imageView0 : R.id.imageView1);
-        v.setBackgroundColor(Colors[itemConfigs[i]]);
+        v.setBackgroundColor(Colors[ItemConfigs[i]]);
     }
 
     public void onUnityUnload(View v) {

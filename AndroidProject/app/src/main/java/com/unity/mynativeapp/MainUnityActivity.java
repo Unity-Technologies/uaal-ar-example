@@ -11,8 +11,7 @@ import com.company.product.OverrideUnityActivity;
 
 public class MainUnityActivity extends OverrideUnityActivity {
 
-    public static int CurrentSelectedItem;
-    public static int CurrentSelectedItemConfig;
+    Button colorButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +42,14 @@ public class MainUnityActivity extends OverrideUnityActivity {
             Point point = new Point();
             display.getSize(point);
 
-            Button colorButton = new Button(this);
+            colorButton = new Button(this);
             colorButton.setText("Color");
             colorButton.setX(point.x - 310);
             colorButton.setY(10);
+            colorButton.setBackgroundColor(MainActivity.GetColorForCurrent());
             colorButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    CurrentSelectedItemConfig = (CurrentSelectedItemConfig + 1) % MainActivity.NumberOfColors;
+                    MainActivity.IncCurrentConfig();
                     UpdateUnityShopItem();
                 }
             });
@@ -57,7 +57,8 @@ public class MainUnityActivity extends OverrideUnityActivity {
     }
 
     private void UpdateUnityShopItem() {
-        UnitySendMessage("AR Session Origin", "SetProduct", Integer.toString(CurrentSelectedItem ));
-        UnitySendMessage("AR Session Origin", "SetColor", MainActivity.ColorsStrings[CurrentSelectedItemConfig]);
+        UnitySendMessage("AR Session Origin", "SetProduct", Integer.toString(MainActivity.CurrentSelectedItem ));
+        UnitySendMessage("AR Session Origin", "SetColor", MainActivity.GetColorStringForCurrent());
+        colorButton.setBackgroundColor(MainActivity.GetColorForCurrent());
     }
 }
