@@ -86,7 +86,7 @@ public class PlaceSingleObjectOnPlane : MonoBehaviour
 
         placedPrefab = newPrefab;
 
-        if (spawnedObject == null)
+        if (spawnedObject != null)
         {
             // Destroy existing object
             Destroy(spawnedObject);
