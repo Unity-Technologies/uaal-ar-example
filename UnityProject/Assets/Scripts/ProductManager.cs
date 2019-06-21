@@ -52,6 +52,9 @@ public class ProductManager : MonoBehaviour
         if (m_PlaceSingleObjectOnPlane != null)
         {
             m_PlaceSingleObjectOnPlane.ObjectPlaced += OnObjectedPlaced;
+            
+            SetProduct("0");
+            SetColor(BrandColors.Magenta.ToString());
         }
     }
 
@@ -74,23 +77,6 @@ public class ProductManager : MonoBehaviour
         }
     }
 
-    private Color GetColor(BrandColors mCurrentColor)
-    {
-        switch (mCurrentColor)
-        {
-            case BrandColors.White:
-                return k_White;
-            case BrandColors.Magenta:
-                return k_Magenta;
-            case BrandColors.Cyan:
-                return k_Cyan;
-            case BrandColors.Lime:
-                return k_Lime;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mCurrentColor), mCurrentColor, null);
-        }
-    }
-
     // call first when loading from native
     // 0 = mug, 1 = shirt
     public void SetProduct(string productNumberString)
@@ -109,6 +95,23 @@ public class ProductManager : MonoBehaviour
 
         m_PlaceSingleObjectOnPlane.SetObjectPrefab(selectedObject.m_Prefab);
         m_ProductText.text = selectedObject.m_Name;
+    }
+
+    private Color GetColor(BrandColors mCurrentColor)
+    {
+        switch (mCurrentColor)
+        {
+            case BrandColors.White:
+                return k_White;
+            case BrandColors.Magenta:
+                return k_Magenta;
+            case BrandColors.Cyan:
+                return k_Cyan;
+            case BrandColors.Lime:
+                return k_Lime;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(mCurrentColor), mCurrentColor, null);
+        }
     }
    
     private void OnObjectedPlaced(ObjectPlacementHandler placedObject)
