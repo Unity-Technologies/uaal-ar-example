@@ -37,8 +37,6 @@ void showAlert(NSString* title, NSString* msg) {
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) UIButton *BackBtn;
 @property (nonatomic, strong) UIButton *ColorBtn;
-@property (nonatomic, strong) UINavigationController *navVC;
-@property (nonatomic, strong) UIButton *unloadBtn;
 @property (nonatomic, strong) MyViewController *viewController;
 
 
@@ -47,8 +45,8 @@ void showAlert(NSString* title, NSString* msg) {
 - (void)ShowMainView;
 - (void)SelectMug;
 - (void)SelectShirt;
-- (UIColor*)ChangeMugColor;
-- (UIColor*)ChangeShirtColor;
+- (NSString*)ChangeMugColor;
+- (NSString*)ChangeShirtColor;
 - (void)didFinishLaunching:(NSNotification*)notification;
 - (void)didBecomeActive:(NSNotification*)notification;
 - (void)willResignActive:(NSNotification*)notification;
@@ -69,9 +67,8 @@ AppDelegate* hostDelegate = NULL;
 @interface MyViewController ()
 @property (nonatomic, strong) UIButton *mugBtn;
 @property (nonatomic, strong) UIButton *shirtBtn;
-@property (nonatomic, strong) UIButton *unloadBtn;
-@property (weak, nonatomic) IBOutlet UIButton *MugColorChangeButton;
-@property (weak, nonatomic) IBOutlet UIButton *ShirtColorChangeButton;
+@property (weak, nonatomic) IBOutlet UIImageView *MugDisplayImage;
+@property (weak, nonatomic) IBOutlet UIImageView *ShirtDisplayImage;
 @end
 
 @implementation MyViewController
@@ -93,14 +90,14 @@ AppDelegate* hostDelegate = NULL;
 
 - (IBAction)OnMugColorChange:(id)sender {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    UIColor *color = [appDelegate ChangeMugColor];
-    _MugColorChangeButton.backgroundColor = color;
+    NSString *imagePath = [appDelegate ChangeMugColor];
+    _MugDisplayImage.image = [UIImage imageNamed:imagePath];
 }
 
 - (IBAction)OnShirtColorChange:(id)sender {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    UIColor *color = [appDelegate ChangeShirtColor];
-    _ShirtColorChangeButton.backgroundColor = color;
+    NSString *imagePath = [appDelegate ChangeShirtColor];
+    _ShirtDisplayImage.image = [UIImage imageNamed:imagePath];
 }
 
 - (void)didReceiveMemoryWarning
@@ -138,6 +135,12 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     }
 }
 
+- (NSString*)getImagePath:(int)item
+{
+    NSString *itemString = item == 0 ? @"Mug " : @"Shirt ";
+    return [NSString stringWithFormat:@"%@%@.png", itemString, colorStringArray[colorIndex[item]]];
+}
+
 - (void)showHostMainWindow
 {
     [self showHostMainWindow:@""];
@@ -146,9 +149,9 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
 - (void)showHostMainWindow:(NSString*)color
 {
     MyViewController* mainController = (MyViewController*)  self.window.rootViewController;
-    mainController.MugColorChangeButton.backgroundColor = colorArray[colorIndex[0]];
-    mainController.ShirtColorChangeButton.backgroundColor = colorArray[colorIndex[1]];
-    
+    mainController.MugDisplayImage.image = [UIImage imageNamed:[self getImagePath: 0]];
+    mainController.ShirtDisplayImage.image = [UIImage imageNamed:[self getImagePath: 1]];
+
     [self.window makeKeyAndVisible];
 }
 
@@ -168,18 +171,18 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     self.ColorBtn.backgroundColor = colorArray[itemColorIndex];
 }
 
--(UIColor*)ChangeShirtColor
+-(NSString*)ChangeShirtColor
 {
     int index = (colorIndex[1] + 1) % 4;
     colorIndex[1] = index;
-    return colorArray[index];
+    return [self getImagePath: 1];
 }
 
--(UIColor*)ChangeMugColor
+-(NSString*)ChangeMugColor
 {
     int index = (colorIndex[0] + 1) % 4;
     colorIndex[0] = index;
-    return colorArray[index];
+    return [self getImagePath: 0];
 }
 
 - (void)changeColor

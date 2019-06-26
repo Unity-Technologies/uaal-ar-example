@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8B26022B22C203F30075EBAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D15FC482264A1600006315A /* Main.storyboard */; };
 		8B2D95C622C0C316006EE1AB /* UnityFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2D95C422C0C316006EE1AB /* UnityFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8BB25C3822C379110000E843 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 8BB25C3722C379110000E843 /* Images */; };
 		9D15FC472264A1600006315A /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9D15FC462264A1600006315A /* MainViewController.mm */; };
 		9D15FC4C2264A1600006315A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D15FC4B2264A1600006315A /* Assets.xcassets */; };
 		9D15FC4F2264A1600006315A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D15FC4D2264A1600006315A /* LaunchScreen.storyboard */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		8B2D95C422C0C316006EE1AB /* UnityFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UnityFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B2D95C822C0C461006EE1AB /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
+		8BB25C3722C379110000E843 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		9D15FC3F2264A1600006315A /* NativeiOSApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NativeiOSApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D15FC462264A1600006315A /* MainViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
 		9D15FC492264A1600006315A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				9D15FC462264A1600006315A /* MainViewController.mm */,
 				9D15FC482264A1600006315A /* Main.storyboard */,
 				9D15FC4B2264A1600006315A /* Assets.xcassets */,
+				8BB25C3722C379110000E843 /* Images */,
 				9D15FC4D2264A1600006315A /* LaunchScreen.storyboard */,
 				9D15FC502264A1600006315A /* Info.plist */,
 			);
@@ -152,6 +155,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BB25C3822C379110000E843 /* Images in Resources */,
 				8B26022B22C203F30075EBAC /* Main.storyboard in Resources */,
 				9D15FC4F2264A1600006315A /* LaunchScreen.storyboard in Resources */,
 				9D15FC4C2264A1600006315A /* Assets.xcassets in Resources */,
