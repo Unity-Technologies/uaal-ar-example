@@ -35,8 +35,8 @@ void showAlert(NSString* title, NSString* msg) {
 @interface AppDelegate : UIResponder<UIApplicationDelegate, UnityFrameworkListener, NativeCallsProtocol>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (nonatomic, strong) UIButton *showUnityOffButton;
-@property (nonatomic, strong) UIButton *btnSendMsg;
+@property (nonatomic, strong) UIButton *BackBtn;
+@property (nonatomic, strong) UIButton *ColorBtn;
 @property (nonatomic, strong) UINavigationController *navVC;
 @property (nonatomic, strong) UIButton *unloadBtn;
 @property (nonatomic, strong) MyViewController *viewController;
@@ -45,7 +45,10 @@ void showAlert(NSString* title, NSString* msg) {
 @property UnityFramework* ufw;
 - (void)initUnity;
 - (void)ShowMainView;
-
+- (void)SelectMug;
+- (void)SelectShirt;
+- (UIColor*)ChangeMugColor;
+- (UIColor*)ChangeShirtColor;
 - (void)didFinishLaunching:(NSNotification*)notification;
 - (void)didBecomeActive:(NSNotification*)notification;
 - (void)willResignActive:(NSNotification*)notification;
@@ -64,43 +67,40 @@ AppDelegate* hostDelegate = NULL;
 
 
 @interface MyViewController ()
-@property (nonatomic, strong) UIButton *unityInitBtn;
-@property (nonatomic, strong) UIButton *unpauseBtn;
+@property (nonatomic, strong) UIButton *mugBtn;
+@property (nonatomic, strong) UIButton *shirtBtn;
 @property (nonatomic, strong) UIButton *unloadBtn;
+@property (weak, nonatomic) IBOutlet UIButton *MugColorChangeButton;
+@property (weak, nonatomic) IBOutlet UIButton *ShirtColorChangeButton;
 @end
 
 @implementation MyViewController
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor blueColor];
-    
-    // INIT UNITY
-    self.unityInitBtn = [UIButton buttonWithType: UIButtonTypeSystem];
-    [self.unityInitBtn setTitle: @"Init" forState: UIControlStateNormal];
-    self.unityInitBtn.frame = CGRectMake(0, 0, 100, 44);
-    self.unityInitBtn.center = CGPointMake(50, 120);
-    self.unityInitBtn.backgroundColor = [UIColor greenColor];
-    [self.unityInitBtn addTarget: hostDelegate action: @selector(initUnity) forControlEvents: UIControlEventPrimaryActionTriggered];
-    [self.view addSubview: self.unityInitBtn];
-    
-    // SHOW UNITY
-    self.unpauseBtn = [UIButton buttonWithType: UIButtonTypeSystem];
-    [self.unpauseBtn setTitle: @"Show Unity" forState: UIControlStateNormal];
-    self.unpauseBtn.frame = CGRectMake(100, 0, 100, 44);
-    self.unpauseBtn.center = CGPointMake(150, 120);
-    self.unpauseBtn.backgroundColor = [UIColor lightGrayColor];
-    [self.unpauseBtn addTarget: hostDelegate action: @selector(ShowMainView) forControlEvents: UIControlEventPrimaryActionTriggered];
-    [self.view addSubview: self.unpauseBtn];
-    
-    // UNLOAD UNITY
-    self.unloadBtn = [UIButton buttonWithType: UIButtonTypeSystem];
-    [self.unloadBtn setTitle: @"Unload" forState: UIControlStateNormal];
-    self.unloadBtn.frame = CGRectMake(300, 0, 100, 44);
-    self.unloadBtn.center = CGPointMake(250, 120);
-    self.unloadBtn.backgroundColor = [UIColor redColor];
-    [self.unloadBtn addTarget: hostDelegate action: @selector(unloadButtonTouched:) forControlEvents: UIControlEventPrimaryActionTriggered];
-    [self.view addSubview: self.unloadBtn];
+}
+
+- (IBAction)OnMugButtonPressed:(id)sender {
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate SelectMug];
+}
+
+
+- (IBAction)OnShirtButtonPressed:(id)sender {
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate SelectShirt];
+}
+
+- (IBAction)OnMugColorChange:(id)sender {
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    UIColor *color = [appDelegate ChangeMugColor];
+    _MugColorChangeButton.backgroundColor = color;
+}
+
+- (IBAction)OnShirtColorChange:(id)sender {
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    UIColor *color = [appDelegate ChangeShirtColor];
+    _ShirtColorChangeButton.backgroundColor = color;
 }
 
 - (void)didReceiveMemoryWarning
@@ -116,6 +116,14 @@ int gArgc = 0;
 char** gArgv = nullptr;
 NSDictionary* appLaunchOpts;
 
+int currentItem = 0; // Mug = 0, Shirt = 1
+int colorIndex[] = {0, 0}; // Mug, Shirt
+NSArray *colorArray = [[NSArray alloc] initWithObjects:[UIColor whiteColor], //white
+                                                       [UIColor colorWithRed:0.929f green:0.094f blue:0.278f alpha:1.0f], //magenta
+                                                       [UIColor colorWithRed:0.019f green:0.733f blue:0.827f alpha:1.0f], //cyan
+                                                       [UIColor colorWithRed:0.796f green:0.858f blue:0.164f alpha:1.0f],nil]; //lime
+
+NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
 
 @implementation AppDelegate
 
@@ -137,37 +145,68 @@ NSDictionary* appLaunchOpts;
 
 - (void)showHostMainWindow:(NSString*)color
 {
-    if([color isEqualToString:@"blue"]) self.viewController.unpauseBtn.backgroundColor = UIColor.blueColor;
-    else if([color isEqualToString:@"red"]) self.viewController.unpauseBtn.backgroundColor = UIColor.redColor;
-    else if([color isEqualToString:@"yellow"]) self.viewController.unpauseBtn.backgroundColor = UIColor.yellowColor;
+    MyViewController* mainController = (MyViewController*)  self.window.rootViewController;
+    mainController.MugColorChangeButton.backgroundColor = colorArray[colorIndex[0]];
+    mainController.ShirtColorChangeButton.backgroundColor = colorArray[colorIndex[1]];
+    
     [self.window makeKeyAndVisible];
 }
 
-- (void)sendMsgToUnity
+- (void)updateUnityShopItem
 {
-    [[self ufw] sendMessageToGOWithName: "Cube" functionName: "ChangeColor" message: "yellow"];
+    [self updateItem: currentItem];
 }
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (void)updateItem:(int)itemIndex
 {
-    hostDelegate = self;
-    appLaunchOpts = launchOptions;
+    const char * itemString = [[NSString stringWithFormat:@"%d",currentItem] UTF8String ];
+    [[self ufw] sendMessageToGOWithName: "AR Session Origin" functionName: "SetProduct" message: itemString];
     
-    self.window = [[UIWindow alloc] initWithFrame: [UIScreen mainScreen].bounds];
-    self.window.backgroundColor = [UIColor redColor];
-    //ViewController *viewcontroller = [[ViewController alloc] initWithNibName:nil Bundle:nil];
-    self.viewController = [[MyViewController alloc] init];
-    self.navVC = [[UINavigationController alloc] initWithRootViewController: self.viewController];
-    self.window.rootViewController = self.navVC;
-    [self.window makeKeyAndVisible];
-    
-    return YES;
+    int itemColorIndex = colorIndex[itemIndex];
+    const char * colorString = [ colorStringArray[itemColorIndex] UTF8String ];
+    [[self ufw] sendMessageToGOWithName: "AR Session Origin" functionName: "SetColor" message: colorString];
+    self.ColorBtn.backgroundColor = colorArray[itemColorIndex];
+}
+
+-(UIColor*)ChangeShirtColor
+{
+    int index = (colorIndex[1] + 1) % 4;
+    colorIndex[1] = index;
+    return colorArray[index];
+}
+
+-(UIColor*)ChangeMugColor
+{
+    int index = (colorIndex[0] + 1) % 4;
+    colorIndex[0] = index;
+    return colorArray[index];
+}
+
+- (void)changeColor
+{
+    int index = (colorIndex[currentItem] + 1) % 4;
+    colorIndex[currentItem] = index;
+    [self updateItem: currentItem];
+}
+
+
+- (void) SelectMug
+{
+    currentItem = 0;
+    [self initUnity];
+}
+
+- (void) SelectShirt
+{
+    currentItem = 1;
+    [self initUnity];
 }
 
 - (void)initUnity
 {
     if([self unityIsInitialized]) {
-        showAlert(@"Unity already initialized", @"Unload Unity first");
+         [[self ufw] showUnityWindow];
+         [self updateUnityShopItem];
         return;
     }
     
@@ -182,30 +221,21 @@ NSDictionary* appLaunchOpts;
     
     auto view = [[[self ufw] appController] rootView];
     
-    self.showUnityOffButton = [UIButton buttonWithType: UIButtonTypeSystem];
-    [self.showUnityOffButton setTitle: @"Show Main" forState: UIControlStateNormal];
-    self.showUnityOffButton.frame = CGRectMake(0, 0, 100, 44);
-    self.showUnityOffButton.center = CGPointMake(50, 300);
-    self.showUnityOffButton.backgroundColor = [UIColor greenColor];
-    [view addSubview: self.showUnityOffButton];
-    [self.showUnityOffButton addTarget: self action: @selector(showHostMainWindow) forControlEvents: UIControlEventPrimaryActionTriggered];
+    self.BackBtn = [UIButton buttonWithType: UIButtonTypeSystem];
+    [self.BackBtn setTitle: @"BACK" forState: UIControlStateNormal];
+    self.BackBtn.frame = CGRectMake(0, 0, 100, 44);
+    self.BackBtn.center = CGPointMake(50, 25);
+    self.BackBtn.backgroundColor = [UIColor whiteColor];
+    [view addSubview: self.BackBtn];
+    [self.BackBtn addTarget: self action: @selector(showHostMainWindow) forControlEvents: UIControlEventPrimaryActionTriggered];
     
-    self.btnSendMsg = [UIButton buttonWithType: UIButtonTypeSystem];
-    [self.btnSendMsg setTitle: @"Send Msg" forState: UIControlStateNormal];
-    self.btnSendMsg.frame = CGRectMake(0, 0, 100, 44);
-    self.btnSendMsg.center = CGPointMake(150, 300);
-    self.btnSendMsg.backgroundColor = [UIColor yellowColor];
-    [view addSubview: self.btnSendMsg];
-    [self.btnSendMsg addTarget: self action: @selector(sendMsgToUnity) forControlEvents: UIControlEventPrimaryActionTriggered];
-    
-    // Unload
-    self.unloadBtn = [UIButton buttonWithType: UIButtonTypeSystem];
-    [self.unloadBtn setTitle: @"Unload" forState: UIControlStateNormal];
-    self.unloadBtn.frame = CGRectMake(250, 0, 100, 44);
-    self.unloadBtn.center = CGPointMake(250, 300);
-    self.unloadBtn.backgroundColor = [UIColor redColor];
-    [self.unloadBtn addTarget: self action: @selector(unloadButtonTouched:) forControlEvents: UIControlEventPrimaryActionTriggered];
-    [view addSubview: self.unloadBtn];
+    self.ColorBtn = [UIButton buttonWithType: UIButtonTypeSystem];
+    [self.ColorBtn setTitle: @"COLOR" forState: UIControlStateNormal];
+    self.ColorBtn.frame = CGRectMake(0, 0, 100, 44);
+    self.ColorBtn.center = CGPointMake(325, 25);
+    self.ColorBtn.backgroundColor = colorArray[colorIndex[currentItem]];
+    [view addSubview: self.ColorBtn];
+    [self.ColorBtn addTarget: self action: @selector(changeColor) forControlEvents: UIControlEventPrimaryActionTriggered];
 }
 
 - (void)unloadButtonTouched:(UIButton *)sender

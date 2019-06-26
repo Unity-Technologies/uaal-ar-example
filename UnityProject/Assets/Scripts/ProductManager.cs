@@ -1,6 +1,13 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using System.Runtime.InteropServices;
+
+
+public class NativeAPI {
+    [DllImport("__Internal")]
+    public static extern void updateUnityShopItem();
+}
 
 /// <summary>
 /// An object that can be previewed in AR.
@@ -52,9 +59,10 @@ public class ProductManager : MonoBehaviour
         if (m_PlaceSingleObjectOnPlane != null)
         {
             m_PlaceSingleObjectOnPlane.ObjectPlaced += OnObjectedPlaced;
-            
+
             SetProduct("0");
             SetColor(BrandColors.Magenta.ToString());
+            UpdateShopItem();
         }
     }
 
@@ -124,10 +132,8 @@ public class ProductManager : MonoBehaviour
         }
     }
 
-    private void OnApplicationFocus(bool hasFocus)
+    private void UpdateShopItem()
     {
-        if (hasFocus)
-        {
 #if UNITY_ANDROID
             try
             {
@@ -139,7 +145,16 @@ public class ProductManager : MonoBehaviour
             {
                 Debug.LogError(e.Message);
             }
+#elif UNITY_IOS
+            NativeAPI.updateUnityShopItem();
 #endif
+    }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (hasFocus)
+        {
+            UpdateShopItem();
         }
     }
 }

@@ -7,14 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B26022B22C203F30075EBAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D15FC482264A1600006315A /* Main.storyboard */; };
+		8B2D95C622C0C316006EE1AB /* UnityFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2D95C422C0C316006EE1AB /* UnityFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9D15FC472264A1600006315A /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9D15FC462264A1600006315A /* MainViewController.mm */; };
-		9D15FC4A2264A1600006315A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D15FC482264A1600006315A /* Main.storyboard */; };
 		9D15FC4C2264A1600006315A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D15FC4B2264A1600006315A /* Assets.xcassets */; };
 		9D15FC4F2264A1600006315A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D15FC4D2264A1600006315A /* LaunchScreen.storyboard */; };
 		9D78DAFD2265A7FC00274039 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D78DAFC2265A7FC00274039 /* UIKit.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		8B2D95C722C0C316006EE1AB /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8B2D95C622C0C316006EE1AB /* UnityFramework.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		8B2D95C422C0C316006EE1AB /* UnityFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UnityFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B2D95C822C0C461006EE1AB /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
 		9D15FC3F2264A1600006315A /* NativeiOSApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NativeiOSApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D15FC462264A1600006315A /* MainViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
 		9D15FC492264A1600006315A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -40,6 +57,7 @@
 		9D15FC362264A15F0006315A = {
 			isa = PBXGroup;
 			children = (
+				8B2D95C422C0C316006EE1AB /* UnityFramework.framework */,
 				9DDA50EF2265A85B00B39A4C /* README.rtf */,
 				9D15FC412264A1600006315A /* NativeiOSApp */,
 				9D15FC402264A1600006315A /* Products */,
@@ -70,6 +88,7 @@
 		9D78DAFB2265A7FC00274039 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8B2D95C822C0C461006EE1AB /* ARKit.framework */,
 				9D78DAFC2265A7FC00274039 /* UIKit.framework */,
 			);
 			name = Frameworks;
@@ -85,6 +104,7 @@
 				9D15FC3B2264A15F0006315A /* Sources */,
 				9D15FC3C2264A15F0006315A /* Frameworks */,
 				9D15FC3D2264A15F0006315A /* Resources */,
+				8B2D95C722C0C316006EE1AB /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,9 +152,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B26022B22C203F30075EBAC /* Main.storyboard in Resources */,
 				9D15FC4F2264A1600006315A /* LaunchScreen.storyboard in Resources */,
 				9D15FC4C2264A1600006315A /* Assets.xcassets in Resources */,
-				9D15FC4A2264A1600006315A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,7 +308,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZE6P334QKR;
+				DEVELOPMENT_TEAM = PYBX32A5LL;
 				INFOPLIST_FILE = NativeiOSApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -306,7 +326,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZE6P334QKR;
+				DEVELOPMENT_TEAM = PYBX32A5LL;
 				INFOPLIST_FILE = NativeiOSApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
