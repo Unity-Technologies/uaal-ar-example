@@ -1,13 +1,14 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+#if UNITY_IOS
 using System.Runtime.InteropServices;
-
 
 public class NativeAPI {
     [DllImport("__Internal")]
     public static extern void updateUnityShopItem();
 }
+#endif
 
 /// <summary>
 /// An object that can be previewed in AR.
@@ -139,7 +140,7 @@ public class ProductManager : MonoBehaviour
             {
                 AndroidJavaClass jc = new AndroidJavaClass("com.company.product.OverrideUnityActivity");
                 AndroidJavaObject overrideActivity = jc.GetStatic<AndroidJavaObject>("instance");
-                overrideActivity.Call("UpdateUnityShopItem");
+                overrideActivity.Call("updateUnityShopItem");
             } 
             catch(Exception e)
             {

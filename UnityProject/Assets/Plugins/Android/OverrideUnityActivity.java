@@ -12,7 +12,7 @@ public abstract class OverrideUnityActivity extends UnityPlayerActivity
 
   protected FrameLayout getUnityFrameLayout() { return mUnityPlayer; }
 
-  abstract protected void showMainActivity(String setToColor);
+  abstract protected void updateUnityShopItem();
   
   @Override
   protected void onCreate(Bundle savedInstanceState)
