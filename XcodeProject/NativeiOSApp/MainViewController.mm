@@ -55,6 +55,9 @@ void showAlert(NSString* title, NSString* msg) {
 - (void)willTerminate:(NSNotification*)notification;
 - (void)unityDidUnloaded:(NSNotification*)notification;
 
+-(UIColor*)ChangeButtonColor:(int)itemIndex;
+-(void)UpdateColorButton:(UIButton*)button :(UIColor*)colorToChange;
+
 @end
 
 AppDelegate* hostDelegate = NULL;
@@ -65,10 +68,10 @@ AppDelegate* hostDelegate = NULL;
 
 
 @interface MyViewController ()
-@property (nonatomic, strong) UIButton *mugBtn;
-@property (nonatomic, strong) UIButton *shirtBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *MugDisplayImage;
 @property (weak, nonatomic) IBOutlet UIImageView *ShirtDisplayImage;
+@property (weak, nonatomic) IBOutlet UIButton *shirtColorChangeBtn;
+@property (weak, nonatomic) IBOutlet UIButton *mugColorChangeBtn;
 @end
 
 @implementation MyViewController
@@ -92,12 +95,18 @@ AppDelegate* hostDelegate = NULL;
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *imagePath = [appDelegate ChangeMugColor];
     _MugDisplayImage.image = [UIImage imageNamed:imagePath];
+    
+    UIColor *nextColourButtonColour = [appDelegate ChangeButtonColor:0];
+    [appDelegate UpdateColorButton:_mugColorChangeBtn :nextColourButtonColour];
 }
 
 - (IBAction)OnShirtColorChange:(id)sender {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *imagePath = [appDelegate ChangeShirtColor];
     _ShirtDisplayImage.image = [UIImage imageNamed:imagePath];
+    
+    UIColor *nextColourButtonColour = [appDelegate ChangeButtonColor:1];
+    [appDelegate UpdateColorButton:_shirtColorChangeBtn :nextColourButtonColour];
 }
 
 - (void)didReceiveMemoryWarning
@@ -141,6 +150,13 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     return [NSString stringWithFormat:@"%@%@.png", itemString, colorStringArray[colorIndex[item]]];
 }
 
+- (int)getImageColorIndex:(int)item
+{
+    NSString *itemString = item == 0 ? @"Mug " : @"Shirt ";
+    return colorIndex[item];
+}
+
+
 - (void)showHostMainWindow
 {
     [self showHostMainWindow:@""];
@@ -151,8 +167,27 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     MyViewController* mainController = (MyViewController*)  self.window.rootViewController;
     mainController.MugDisplayImage.image = [UIImage imageNamed:[self getImagePath: 0]];
     mainController.ShirtDisplayImage.image = [UIImage imageNamed:[self getImagePath: 1]];
-
+    
+    [self UpdateColorButton:mainController.mugColorChangeBtn :colorArray[(colorIndex[0] + 1) % colorArray.count]];
+    [self UpdateColorButton:mainController.shirtColorChangeBtn :colorArray[(colorIndex[1] + 1) % colorArray.count]];
+    
     [self.window makeKeyAndVisible];
+}
+
+-(void)UpdateColorButton:(UIButton*)button :(UIColor*)colorToChange
+{
+    if(colorToChange == UIColor.whiteColor)
+    {
+        //Set button image to white
+        NSString* whiteButtonImagePath = @"colour_button_white.png";
+        [button setImage:[UIImage imageNamed:whiteButtonImagePath] forState:UIControlStateNormal];
+    }
+    else
+    {
+        NSString* colourButtonImagePath = @"colour_button_colour.png";
+        [button setImage:[UIImage imageNamed:colourButtonImagePath] forState:UIControlStateNormal];
+        button.tintColor = colorToChange;
+    }
 }
 
 - (void)updateUnityShopItem
@@ -166,23 +201,29 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     [[self ufw] sendMessageToGOWithName: "AR Session Origin" functionName: "SetProduct" message: itemString];
     
     int itemColorIndex = colorIndex[itemIndex];
+    int buttonColorIndex = colorIndex[itemIndex];
     const char * colorString = [ colorStringArray[itemColorIndex] UTF8String ];
     [[self ufw] sendMessageToGOWithName: "AR Session Origin" functionName: "SetColor" message: colorString];
-    self.ColorBtn.backgroundColor = colorArray[itemColorIndex];
+    self.ColorBtn.tintColor = colorArray[(colorIndex[itemIndex] + 1) % colorArray.count];
 }
 
 -(NSString*)ChangeShirtColor
 {
-    int index = (colorIndex[1] + 1) % 4;
+    int index = (colorIndex[1] + 1) % colorArray.count;
     colorIndex[1] = index;
     return [self getImagePath: 1];
 }
 
 -(NSString*)ChangeMugColor
 {
-    int index = (colorIndex[0] + 1) % 4;
+    int index = (colorIndex[0] + 1) % colorArray.count;
     colorIndex[0] = index;
     return [self getImagePath: 0];
+}
+
+-(UIColor*)ChangeButtonColor:(int)itemIndex
+{
+    return colorArray[(colorIndex[itemIndex] + 1) % colorArray.count];
 }
 
 - (void)changeColor
@@ -191,7 +232,6 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     colorIndex[currentItem] = index;
     [self updateItem: currentItem];
 }
-
 
 - (void) SelectMug
 {
@@ -224,19 +264,26 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     
     auto view = [[[self ufw] appController] rootView];
     
+    NSString* backButtonImagePath = @"button_back.png";
+    NSString* colourButtonPath = @"button_colour.png";
+    
     self.BackBtn = [UIButton buttonWithType: UIButtonTypeSystem];
+    [self.BackBtn setImage:[UIImage imageNamed:backButtonImagePath] forState:UIControlStateNormal];
     [self.BackBtn setTitle: @"BACK" forState: UIControlStateNormal];
-    self.BackBtn.frame = CGRectMake(0, 0, 100, 44);
-    self.BackBtn.center = CGPointMake(50, 25);
-    self.BackBtn.backgroundColor = [UIColor whiteColor];
+    self.BackBtn.frame = CGRectMake(0, 0, 200, 110);
+    self.BackBtn.center = CGPointMake(80, 40);
+    self.BackBtn.backgroundColor = UIColor.clearColor;
+    self.BackBtn.tintColor = UIColor.whiteColor;
     [view addSubview: self.BackBtn];
     [self.BackBtn addTarget: self action: @selector(showHostMainWindow) forControlEvents: UIControlEventPrimaryActionTriggered];
     
     self.ColorBtn = [UIButton buttonWithType: UIButtonTypeSystem];
+    [self.ColorBtn setImage:[UIImage imageNamed:colourButtonPath] forState:UIControlStateNormal];
+
     [self.ColorBtn setTitle: @"COLOR" forState: UIControlStateNormal];
-    self.ColorBtn.frame = CGRectMake(0, 0, 100, 44);
-    self.ColorBtn.center = CGPointMake(325, 25);
-    self.ColorBtn.backgroundColor = colorArray[colorIndex[currentItem]];
+    self.ColorBtn.frame = CGRectMake(0, 0, 230, 110);
+    self.ColorBtn.center = CGPointMake(280, 40);
+    self.ColorBtn.backgroundColor = UIColor.clearColor;
     [view addSubview: self.ColorBtn];
     [self.ColorBtn addTarget: self action: @selector(changeColor) forControlEvents: UIControlEventPrimaryActionTriggered];
 }
