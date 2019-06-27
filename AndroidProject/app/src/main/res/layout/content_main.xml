@@ -10,12 +10,11 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:background="#E6E5E5"
         android:orientation="horizontal"
+        android:paddingTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +22,7 @@
 
         <View
             android:id="@+id/divider"
-            android:layout_width="10dp"
+            android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?android:attr/listDivider"
@@ -32,8 +31,9 @@
 
         <LinearLayout
             android:id="@+id/ShopItem0"
-            android:layout_width="180dp"
-            android:layout_height="match_parent"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
             android:clickable="false"
             android:orientation="vertical">
 
@@ -53,6 +53,7 @@
                     android:layout_width="119dp"
                     android:layout_height="35dp"
                     android:layout_weight="1"
+                    android:paddingLeft="5dp"
                     android:text="Mug"
                     android:textAlignment="viewStart"
                     android:textColor="#010000"
@@ -61,7 +62,7 @@
 
                 <ImageButton
                     android:id="@+id/mugColorChanger"
-                    android:layout_width="25dp"
+                    android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#00FFFFFF"
@@ -81,7 +82,7 @@
 
         <View
             android:id="@+id/divider2"
-            android:layout_width="10dp"
+            android:layout_width="25dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?android:attr/listDivider"
@@ -90,8 +91,9 @@
 
         <LinearLayout
             android:id="@+id/ShopItem1"
-            android:layout_width="180dp"
-            android:layout_height="match_parent"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
             android:clickable="false"
             android:orientation="vertical">
 
@@ -111,6 +113,7 @@
                     android:layout_width="119dp"
                     android:layout_height="35dp"
                     android:layout_weight="1"
+                    android:paddingLeft="5dp"
                     android:text="Shirt"
                     android:textAlignment="viewStart"
                     android:textColor="#000000"
@@ -119,7 +122,7 @@
 
                 <ImageButton
                     android:id="@+id/shirtColorChanger"
-                    android:layout_width="25dp"
+                    android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#00FFFFFF"
@@ -140,7 +143,7 @@
 
         <View
             android:id="@+id/divider3"
-            android:layout_width="10dp"
+            android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?android:attr/listDivider"
