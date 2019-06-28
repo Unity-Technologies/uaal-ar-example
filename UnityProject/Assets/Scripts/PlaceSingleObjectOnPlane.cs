@@ -77,6 +77,17 @@ public class PlaceSingleObjectOnPlane : MonoBehaviour
         }
     }
 
+    public void Clear()
+    {
+        if (spawnedObject != null)
+        {
+            // Destroy existing object
+            Destroy(spawnedObject);
+            
+            ObjectPlaced?.Invoke(null);
+        }
+    }
+
     public void SetObjectPrefab(GameObject newPrefab)
     {
         if (newPrefab == placedPrefab)
@@ -85,14 +96,7 @@ public class PlaceSingleObjectOnPlane : MonoBehaviour
         }
 
         placedPrefab = newPrefab;
-
-        if (spawnedObject != null)
-        {
-            // Destroy existing object
-            Destroy(spawnedObject);
-            
-            ObjectPlaced?.Invoke(null);
-        }
+        Clear();
     }
     
     bool IsTouchOverUIObject(Touch touch)

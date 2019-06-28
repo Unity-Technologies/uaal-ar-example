@@ -172,6 +172,9 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     [self UpdateColorButton:mainController.shirtColorChangeBtn :colorArray[(colorIndex[1] + 1) % colorArray.count]];
     
     [self.window makeKeyAndVisible];
+    
+    [[self ufw] sendMessageToGOWithName: "AR Session Origin" functionName: "ClearPlacedItem" message:""];
+    self.ColorBtn.hidden = true;
 }
 
 -(void)UpdateColorButton:(UIButton*)button :(UIColor*)colorToChange
@@ -188,6 +191,11 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
         [button setImage:[UIImage imageNamed:colourButtonImagePath] forState:UIControlStateNormal];
         button.tintColor = colorToChange;
     }
+}
+
+- (void)itemPlacedInAR
+{
+    self.ColorBtn.hidden = false;
 }
 
 - (void)updateUnityShopItem
@@ -286,6 +294,7 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     self.ColorBtn.backgroundColor = UIColor.clearColor;
     [view addSubview: self.ColorBtn];
     [self.ColorBtn addTarget: self action: @selector(changeColor) forControlEvents: UIControlEventPrimaryActionTriggered];
+    self.ColorBtn.hidden = true;
 }
 
 - (void)unloadButtonTouched:(UIButton *)sender

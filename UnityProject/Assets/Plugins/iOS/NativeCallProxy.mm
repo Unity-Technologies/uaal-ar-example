@@ -15,5 +15,6 @@ id<NativeCallsProtocol> api = NULL;
 
 extern "C" {
      void updateUnityShopItem() {return [api updateUnityShopItem]; }
+     void itemPlacedInAR() {return [api itemPlacedInAR]; }
 }
 

@@ -7,6 +7,8 @@ using System.Runtime.InteropServices;
 public class NativeAPI {
     [DllImport("__Internal")]
     public static extern void updateUnityShopItem();
+    [DllImport("__Internal")]
+    public static extern void itemPlacedInAR();
 }
 #endif
 
@@ -75,6 +77,11 @@ public class ProductManager : MonoBehaviour
         }
     }
 
+    public void ClearPlacedItem()
+    {
+        m_PlaceSingleObjectOnPlane.Clear();
+    }
+
     // 0 = white, 1 = magenta, 2 = cyan, 3 = lime
     public void SetColor(string colourName)
     {
@@ -131,6 +138,21 @@ public class ProductManager : MonoBehaviour
         {
             m_CurrentObject.objectMat.color = GetColor(m_CurrentColor);
         }
+
+#if UNITY_ANDROID
+            try
+            {
+                AndroidJavaClass jc = new AndroidJavaClass("com.company.product.OverrideUnityActivity");
+                AndroidJavaObject overrideActivity = jc.GetStatic<AndroidJavaObject>("instance");
+                overrideActivity.Call("itemPlacedInAR");
+            } 
+            catch(Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
+#elif UNITY_IOS
+            NativeAPI.itemPlacedInAR();
+#endif
     }
 
     private void UpdateShopItem()

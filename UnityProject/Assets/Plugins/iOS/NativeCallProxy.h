@@ -7,6 +7,7 @@
 @protocol NativeCallsProtocol
 @required
 - (void) updateUnityShopItem;
+- (void) itemPlacedInAR;
 // other methods
 @end
 
