@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageButton;
@@ -27,7 +29,27 @@ public class MainUnityActivity extends OverrideUnityActivity {
         UnitySendMessage("AR Session Origin", "SetColor", MainActivity.GetColorStringForCurrent());
     }
 
+    @Override
+    protected void itemPlacedInAR() {
+        new Thread(mMessageSender).start();
+    }
+
+    private static Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            colorButton.setVisibility(View.VISIBLE);
+        }
+    };
+
+    private final Runnable mMessageSender = new Runnable() {
+        public void run() {
+            mHandler.sendMessage( mHandler.obtainMessage());
+        }
+    };
+
+
     protected void showMainActivity() {
+        UnitySendMessage("AR Session Origin", "Clear", "");
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -55,6 +77,7 @@ public class MainUnityActivity extends OverrideUnityActivity {
             backButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     showMainActivity();
+                    colorButton.setVisibility(View.GONE);
                 }
             });
             getUnityFrameLayout().addView(backButton, size, size / 2);
@@ -71,6 +94,7 @@ public class MainUnityActivity extends OverrideUnityActivity {
                     onColorButtonPressed();
                 }
             });
+            colorButton.setVisibility(View.GONE);
             getUnityFrameLayout().addView(colorButton, size, size / 2);
     }
 
