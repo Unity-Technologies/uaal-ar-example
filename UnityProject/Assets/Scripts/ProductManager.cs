@@ -137,7 +137,6 @@ public class ProductManager : MonoBehaviour
         if (m_CurrentObject != null)
         {
             m_CurrentObject.objectMat.color = GetColor(m_CurrentColor);
-        }
 
 #if UNITY_ANDROID
             try
@@ -153,6 +152,7 @@ public class ProductManager : MonoBehaviour
 #elif UNITY_IOS
             NativeAPI.itemPlacedInAR();
 #endif
+        }
     }
 
     private void UpdateShopItem()
