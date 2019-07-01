@@ -3,8 +3,8 @@
 #include <UnityFramework/UnityFramework.h>
 #include <UnityFramework/NativeCallProxy.h>
 
-UnityFramework* UnityFrameworkLoad()
-{
+//Set up UnitFramework for use in AppDelegate.
+UnityFramework* UnityFrameworkLoad() {
     NSString* bundlePath = nil;
     bundlePath = [[NSBundle mainBundle] bundlePath];
     bundlePath = [bundlePath stringByAppendingString: @"/Frameworks/UnityFramework.framework"];
@@ -21,14 +21,6 @@ UnityFramework* UnityFrameworkLoad()
     return ufw;
 }
 
-void showAlert(NSString* title, NSString* msg) {
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:title message:msg                                                         preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {}];
-    [alert addAction:defaultAction];
-    auto delegate = [[UIApplication sharedApplication] delegate];
-    [delegate.window.rootViewController presentViewController:alert animated:YES completion:nil];
-}
 @interface MyViewController : UIViewController
 @end
 
@@ -39,21 +31,12 @@ void showAlert(NSString* title, NSString* msg) {
 @property (nonatomic, strong) UIButton *ColorBtn;
 @property (nonatomic, strong) MyViewController *viewController;
 
-
 @property UnityFramework* ufw;
 - (void)initUnity;
-- (void)ShowMainView;
 - (void)SelectMug;
 - (void)SelectShirt;
 - (NSString*)ChangeMugColor;
 - (NSString*)ChangeShirtColor;
-- (void)didFinishLaunching:(NSNotification*)notification;
-- (void)didBecomeActive:(NSNotification*)notification;
-- (void)willResignActive:(NSNotification*)notification;
-- (void)didEnterBackground:(NSNotification*)notification;
-- (void)willEnterForeground:(NSNotification*)notification;
-- (void)willTerminate:(NSNotification*)notification;
-- (void)unityDidUnloaded:(NSNotification*)notification;
 
 -(UIColor*)ChangeButtonColor:(int)itemIndex;
 -(void)UpdateColorButton:(UIButton*)button :(UIColor*)colorToChange;
@@ -66,7 +49,6 @@ AppDelegate* hostDelegate = NULL;
 // -------------------------------
 // -------------------------------
 
-
 @interface MyViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *MugDisplayImage;
 @property (weak, nonatomic) IBOutlet UIImageView *ShirtDisplayImage;
@@ -75,22 +57,24 @@ AppDelegate* hostDelegate = NULL;
 @end
 
 @implementation MyViewController
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 }
 
+//"Show in AR" button under Mug, this will launch Unity AR with mug item selected.
 - (IBAction)OnMugButtonPressed:(id)sender {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate SelectMug];
 }
 
-
+//"Show in AR" button under Shirt, this will launch Unity AR with shirt item selected.
 - (IBAction)OnShirtButtonPressed:(id)sender {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate SelectShirt];
 }
 
+//Color change button for mug, this will change the color of the mug and
+//_mugColorChangeBtn will be set to the color of the next mug.
 - (IBAction)OnMugColorChange:(id)sender {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *imagePath = [appDelegate ChangeMugColor];
@@ -100,6 +84,8 @@ AppDelegate* hostDelegate = NULL;
     [appDelegate UpdateColorButton:_mugColorChangeBtn :nextColourButtonColour];
 }
 
+//Color change button for shirt, this will change the color of the shirt and
+//_shirtColorChangeBtn will be set to the color of the next shirt.
 - (IBAction)OnShirtColorChange:(id)sender {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *imagePath = [appDelegate ChangeShirtColor];
@@ -109,13 +95,11 @@ AppDelegate* hostDelegate = NULL;
     [appDelegate UpdateColorButton:_shirtColorChangeBtn :nextColourButtonColour];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
 @end
-
 
 // keep arg for unity init from non main
 int gArgc = 0;
@@ -135,35 +119,14 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
 
 - (bool)unityIsInitialized { return [self ufw] && [[self ufw] appController]; }
 
-- (void)ShowMainView
-{
-    if(![self unityIsInitialized]) {
-        showAlert(@"Unity is not initialized", @"Initialize Unity first");
-    } else {
-        [[self ufw] showUnityWindow];
-    }
-}
-
-- (NSString*)getImagePath:(int)item
-{
+- (NSString*)getImagePath:(int)item {
     NSString *itemString = item == 0 ? @"Mug " : @"Shirt ";
     return [NSString stringWithFormat:@"%@%@.png", itemString, colorStringArray[colorIndex[item]]];
 }
 
-- (int)getImageColorIndex:(int)item
-{
-    NSString *itemString = item == 0 ? @"Mug " : @"Shirt ";
-    return colorIndex[item];
-}
-
-
-- (void)showHostMainWindow
-{
-    [self showHostMainWindow:@""];
-}
-
-- (void)showHostMainWindow:(NSString*)color
-{
+//Called when "Back" button from native iOS overlay on Unity AR view is pressed.
+//Updates UI and sends a message to unity to clear item.
+- (void)showHostMainWindow{
     MyViewController* mainController = (MyViewController*)  self.window.rootViewController;
     mainController.MugDisplayImage.image = [UIImage imageNamed:[self getImagePath: 0]];
     mainController.ShirtDisplayImage.image = [UIImage imageNamed:[self getImagePath: 1]];
@@ -177,11 +140,11 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     self.ColorBtn.hidden = true;
 }
 
--(void)UpdateColorButton:(UIButton*)button :(UIColor*)colorToChange
-{
+//Changes the tint of the color select buttons in the main view.
+-(void)UpdateColorButton:(UIButton*)button :(UIColor*)colorToChange {
     if(colorToChange == UIColor.whiteColor)
     {
-        //Set button image to white
+        //Set button image to white button
         NSString* whiteButtonImagePath = @"colour_button_white.png";
         [button setImage:[UIImage imageNamed:whiteButtonImagePath] forState:UIControlStateNormal];
     }
@@ -193,68 +156,64 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     }
 }
 
-- (void)itemPlacedInAR
-{
+//Message called from Unity, this will unhide the "Color" change button from the native iOS overlay
+//when Unity AR is running in app.
+- (void)itemPlacedInAR {
     self.ColorBtn.hidden = false;
 }
 
-- (void)updateUnityShopItem
-{
+//Sends message to Unity to update item in AR.
+- (void)updateUnityShopItem {
     [self updateItem: currentItem];
 }
 
-- (void)updateItem:(int)itemIndex
-{
+//Sends message to Unity to update item in AR
+- (void)updateItem:(int)itemIndex {
     const char * itemString = [[NSString stringWithFormat:@"%d",currentItem] UTF8String ];
     [[self ufw] sendMessageToGOWithName: "AR Session Origin" functionName: "SetProduct" message: itemString];
     
     int itemColorIndex = colorIndex[itemIndex];
-    int buttonColorIndex = colorIndex[itemIndex];
     const char * colorString = [ colorStringArray[itemColorIndex] UTF8String ];
     [[self ufw] sendMessageToGOWithName: "AR Session Origin" functionName: "SetColor" message: colorString];
     self.ColorBtn.tintColor = colorArray[(colorIndex[itemIndex] + 1) % colorArray.count];
 }
 
--(NSString*)ChangeShirtColor
-{
+-(NSString*)ChangeShirtColor {
     int index = (colorIndex[1] + 1) % colorArray.count;
     colorIndex[1] = index;
     return [self getImagePath: 1];
 }
 
--(NSString*)ChangeMugColor
-{
+-(NSString*)ChangeMugColor {
     int index = (colorIndex[0] + 1) % colorArray.count;
     colorIndex[0] = index;
     return [self getImagePath: 0];
 }
 
--(UIColor*)ChangeButtonColor:(int)itemIndex
-{
+-(UIColor*)ChangeButtonColor:(int)itemIndex {
     return colorArray[(colorIndex[itemIndex] + 1) % colorArray.count];
 }
 
-- (void)changeColor
-{
+//Called from "Color" button in Native iOS overlay on Unity AR.
+//This will send a message to Unity AR to update the item currently being viewed.
+- (void)changeColor {
     int index = (colorIndex[currentItem] + 1) % 4;
     colorIndex[currentItem] = index;
     [self updateItem: currentItem];
 }
 
-- (void) SelectMug
-{
+- (void) SelectMug {
     currentItem = 0;
     [self initUnity];
 }
 
-- (void) SelectShirt
-{
+- (void) SelectShirt {
     currentItem = 1;
     [self initUnity];
 }
 
-- (void)initUnity
-{
+//Called from "Show in AR" buttons to initialize unity, or update item being viewed.
+- (void)initUnity {
     if([self unityIsInitialized]) {
          [[self ufw] showUnityWindow];
          [self updateUnityShopItem];
@@ -297,24 +256,6 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     self.ColorBtn.hidden = true;
 }
 
-- (void)unloadButtonTouched:(UIButton *)sender
-{
-    if(![self unityIsInitialized]) {
-        showAlert(@"Unity is not initialized", @"Initialize Unity first");
-    } else {
-        [UnityFrameworkLoad() unloadApplicaion: true];
-    }
-}
-
-- (void)unityDidUnload:(NSNotification*)notification
-{
-    NSLog(@"unityDidUnloaded called");
-    
-    [[self ufw] unregisterFrameworkListener: self];
-    [self setUfw: nil];
-    [self showHostMainWindow:@""];
-}
-
 - (void)applicationWillResignActive:(UIApplication *)application { [[[self ufw] appController] applicationWillResignActive: application]; }
 - (void)applicationDidEnterBackground:(UIApplication *)application { [[[self ufw] appController] applicationDidEnterBackground: application]; }
 - (void)applicationWillEnterForeground:(UIApplication *)application { [[[self ufw] appController] applicationWillEnterForeground: application]; }
@@ -323,9 +264,7 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
 
 @end
 
-
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     gArgc = argc;
     gArgv = argv;
     
