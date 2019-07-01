@@ -77,7 +77,7 @@ public class MainUnityActivity extends OverrideUnityActivity {
 
     // Return to the MainActivity. Sends a message to the Unity Activity to clear the placed AR item.
     private void showMainActivity() {
-        UnitySendMessage("AR Session Origin", "Clear", "");
+        UnitySendMessage("AR Session Origin", "ClearPlacedItem", "");
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
