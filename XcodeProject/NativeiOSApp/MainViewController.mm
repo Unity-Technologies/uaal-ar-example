@@ -35,11 +35,13 @@ UnityFramework* UnityFrameworkLoad() {
 - (void)initUnity;
 - (void)SelectMug;
 - (void)SelectShirt;
+- (void)UnloadUnity;
 - (NSString*)ChangeMugColor;
 - (NSString*)ChangeShirtColor;
 
 -(UIColor*)ChangeButtonColor:(int)itemIndex;
 -(void)UpdateColorButton:(UIButton*)button :(UIColor*)colorToChange;
+-(void)unityDidUnload:(NSNotification*)notification;
 
 @end
 
@@ -50,6 +52,7 @@ AppDelegate* hostDelegate = NULL;
 // -------------------------------
 
 @interface MyViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *UnloadButton;
 @property (weak, nonatomic) IBOutlet UIImageView *MugDisplayImage;
 @property (weak, nonatomic) IBOutlet UIImageView *ShirtDisplayImage;
 @property (weak, nonatomic) IBOutlet UIButton *shirtColorChangeBtn;
@@ -59,6 +62,8 @@ AppDelegate* hostDelegate = NULL;
 @implementation MyViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _UnloadButton.enabled = false;
+    _UnloadButton.backgroundColor = UIColor.grayColor;
 }
 
 //"Show in AR" button under Mug, this will launch Unity AR with mug item selected.
@@ -93,6 +98,14 @@ AppDelegate* hostDelegate = NULL;
     
     UIColor *nextColourButtonColour = [appDelegate ChangeButtonColor:1];
     [appDelegate UpdateColorButton:_shirtColorChangeBtn :nextColourButtonColour];
+}
+
+- (IBAction)UnloadUnity:(id)sender {
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate UnloadUnity];
+    _UnloadButton.enabled = false;
+    _UnloadButton.backgroundColor = UIColor.grayColor;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -254,6 +267,26 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     [view addSubview: self.ColorBtn];
     [self.ColorBtn addTarget: self action: @selector(changeColor) forControlEvents: UIControlEventPrimaryActionTriggered];
     self.ColorBtn.hidden = true;
+    
+    MyViewController* mainController = (MyViewController*)  self.window.rootViewController;
+    mainController.UnloadButton.enabled = true;
+    mainController.UnloadButton.backgroundColor = [UIColor colorWithRed:0.0f green:0.478f blue:1.0f alpha:1.0f];
+}
+
+- (void)UnloadUnity
+{
+    if([self unityIsInitialized]){
+        [UnityFrameworkLoad() unloadApplicaion: true];
+    }
+}
+
+- (void)unityDidUnload:(NSNotification*)notification
+{
+    NSLog(@"unityDidUnloaded called");
+    
+    [[self ufw] unregisterFrameworkListener: self];
+    [self setUfw: nil];
+    [self showHostMainWindow];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application { [[[self ufw] appController] applicationWillResignActive: application]; }

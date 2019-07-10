@@ -122,6 +122,23 @@
                                     <navigationItem title="Unity AR Shopfront Demo" id="OMn-39-pBZ"/>
                                 </items>
                             </navigationBar>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QW1-1N-fPj" userLabel="UnloadUnityButton">
+                                <rect key="frame" x="16" y="395" width="343" height="51"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="Unload Unity">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="UnloadUnity:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="ePW-09-tJR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -129,13 +146,14 @@
                     <connections>
                         <outlet property="MugDisplayImage" destination="IKJ-qa-9DE" id="8hl-bO-NJK"/>
                         <outlet property="ShirtDisplayImage" destination="YoS-bC-fD9" id="Pgk-fP-aFe"/>
-                        <outlet property="mugColorChangeBtn" destination="pib-Zs-V9V" id="FzS-el-X7a"/>
+                        <outlet property="UnloadButton" destination="QW1-1N-fPj" id="MtT-rL-Y2e"/>
+                        <outlet property="mugColorChangeBtn" destination="pib-Zs-V9V" id="9Ij-ib-QYK"/>
                         <outlet property="shirtColorChangeBtn" destination="lXi-8H-znX" id="JHt-iy-BlZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="135.19999999999999" y="120.98950524737631"/>
+            <point key="canvasLocation" x="134.78260869565219" y="120.53571428571428"/>
         </scene>
     </scenes>
     <resources>
