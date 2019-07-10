@@ -9,146 +9,170 @@
     tools:showIn="@layout/activity_main">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:background="#E6E5E5"
-        android:orientation="horizontal"
-        android:paddingTop="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?android:attr/listDivider"
-            android:visibility="invisible"
-            tools:visibility="invisible" />
-
         <LinearLayout
-            android:id="@+id/ShopItem0"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:clickable="false"
-            android:orientation="vertical">
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#E6E5E5"
+            android:orientation="horizontal"
+            android:paddingTop="15dp">
 
-            <ImageView
-                android:id="@+id/mugDisplay"
-                android:layout_width="match_parent"
-                android:layout_height="146dp"
-                app:srcCompat="@drawable/mugwhite" />
+            <View
+                android:id="@+id/divider"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider"
+                android:visibility="invisible"
+                tools:visibility="invisible" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/ShopItem0"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:background="@android:color/white"
+                android:clickable="false"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="119dp"
-                    android:layout_height="35dp"
-                    android:layout_weight="1"
-                    android:paddingLeft="5dp"
-                    android:text="Mug"
-                    android:textAlignment="viewStart"
-                    android:textColor="#010000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/mugDisplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="146dp"
+                    app:srcCompat="@drawable/mugwhite" />
 
-                <ImageButton
-                    android:id="@+id/mugColorChanger"
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#00FFFFFF"
-                    android:scaleType="fitStart"
-                    app:srcCompat="@drawable/colour_button_white" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="119dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="5dp"
+                        android:text="Mug"
+                        android:textAlignment="viewStart"
+                        android:textColor="#010000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/mugColorChanger"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#00FFFFFF"
+                        android:scaleType="fitStart"
+                        app:srcCompat="@drawable/colour_button_white" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/previewbutton0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="AR Preview"
+                    android:textColor="@android:color/white" />
+
             </LinearLayout>
 
-            <Button
-                android:id="@+id/previewbutton0"
-                android:layout_width="match_parent"
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider"
+                android:visibility="invisible"
+                tools:visibility="invisible" />
+
+            <LinearLayout
+                android:id="@+id/ShopItem1"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="AR Preview"
-                android:textColor="@android:color/white" />
+                android:background="@android:color/white"
+                android:clickable="false"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/shirtDisplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="146dp"
+                    app:srcCompat="@drawable/shirtwhite" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/shirtTextView"
+                        android:layout_width="119dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="5dp"
+                        android:text="Shirt"
+                        android:textAlignment="viewStart"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/shirtColorChanger"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#00FFFFFF"
+                        android:scaleType="fitStart"
+                        app:srcCompat="@drawable/colour_button_white" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/previewbutton1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="AR Preview"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider"
+                android:visibility="invisible"
+                tools:visibility="invisible" />
 
         </LinearLayout>
 
         <View
-            android:id="@+id/divider2"
-            android:layout_width="25dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?android:attr/listDivider"
-            android:visibility="invisible"
-            tools:visibility="invisible" />
+            android:id="@+id/divider4"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="?android:attr/listDivider" />
 
-        <LinearLayout
-            android:id="@+id/ShopItem1"
-            android:layout_width="160dp"
+        <Button
+            android:id="@+id/unloadButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:clickable="false"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/shirtDisplay"
-                android:layout_width="match_parent"
-                android:layout_height="146dp"
-                app:srcCompat="@drawable/shirtwhite" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/shirtTextView"
-                    android:layout_width="119dp"
-                    android:layout_height="35dp"
-                    android:layout_weight="1"
-                    android:paddingLeft="5dp"
-                    android:text="Shirt"
-                    android:textAlignment="viewStart"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <ImageButton
-                    android:id="@+id/shirtColorChanger"
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#00FFFFFF"
-                    android:scaleType="fitStart"
-                    app:srcCompat="@drawable/colour_button_white" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/previewbutton1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="AR Preview"
-                android:textColor="@android:color/white" />
-
-        </LinearLayout>
-
-        <View
-            android:id="@+id/divider3"
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?android:attr/listDivider"
-            android:visibility="invisible"
-            tools:visibility="invisible" />
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="unloadUnity"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:text="Unload Unity"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.unity.mynativeapp;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // assign the correct display image for the shop items and assign on click listeners.
-        View mugColorButton = findViewById(R.id.mugColorChanger);
+        ImageView mugColorButton = findViewById(R.id.mugColorChanger);
         mugColorButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 IncConfig(0);
@@ -77,10 +78,9 @@ public class MainActivity extends AppCompatActivity {
         });
         ImageView mugDisplay = findViewById(R.id.mugDisplay);
         mugDisplay.setImageResource(MugImages[ItemConfigs[0]]);
-        ImageView mugColorChangeButton = findViewById(R.id.mugColorChanger);
-        UpdateColorButton(mugColorChangeButton, ItemConfigs[0]);
+        UpdateColorButton(mugColorButton, ItemConfigs[0]);
 
-        View shirtColorButton = findViewById(R.id.shirtColorChanger);
+        ImageView shirtColorButton = findViewById(R.id.shirtColorChanger);
         shirtColorButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 IncConfig(1);
@@ -88,8 +88,24 @@ public class MainActivity extends AppCompatActivity {
         });
         ImageView shirtDisplay = findViewById(R.id.shirtDisplay);
         shirtDisplay.setImageResource(ShirtImages[ItemConfigs[1]]);
-        ImageView shirtColorChangeButton = findViewById(R.id.shirtColorChanger);
-        UpdateColorButton(shirtColorChangeButton, ItemConfigs[1]);
+        UpdateColorButton(shirtColorButton, ItemConfigs[1]);
+
+        View unloadButton = findViewById(R.id.unloadButton);
+        if (MainUnityActivity.instance == null) {
+            unloadButton.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+            unloadButton.setEnabled(false);
+        }
+        else {
+            unloadButton.getBackground().setColorFilter(null);
+            unloadButton.setEnabled(true);
+        }
+    }
+
+    public void unloadUnity(View view) {
+        if(MainUnityActivity.instance != null)
+        {
+            MainUnityActivity.instance.finish();
+        }
     }
 
     // Start the Unity Activity.
