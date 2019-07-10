@@ -16,7 +16,7 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        applicationId "com.unity.mynativeapp"
+        applicationId "com.unity.uaal"
         minSdkVersion 24
         targetSdkVersion 28
         versionCode 1

@@ -1,4 +1,4 @@
-package com.unity.mynativeapp;
+package com.unity.uaal;
 
 import android.content.Intent;
 import android.graphics.Color;
