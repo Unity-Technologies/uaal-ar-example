@@ -276,7 +276,7 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
 - (void)UnloadUnity
 {
     if([self unityIsInitialized]){
-        [UnityFrameworkLoad() unloadApplicaion: true];
+        [UnityFrameworkLoad() unloadApplication:true];
     }
 }
 
