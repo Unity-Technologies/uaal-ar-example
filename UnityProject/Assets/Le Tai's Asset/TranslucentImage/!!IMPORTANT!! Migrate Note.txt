@@ -1,7 +1,0 @@
-If you are upgrading from version lower than 2.2.1, please run the migration tool found at "Tools/Le Tai's Asset/Translucent Image/Migrate" on every Scene that contain them.
-
-You can select every Scenes you have and choose "Open Scene Addictive" and run the tool only once.
-
-Besure to run the tools only once, if you did more than 1, you can undo normally.
-
-Changes might not show up immdiately, in that case just resize the scene view and it should update.
