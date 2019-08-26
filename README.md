@@ -7,21 +7,21 @@ This repository represents an example of using Unity's AR features in a library 
 ### AndroidProject
 The Android Studio project for the native Android component. Already preconfigured for a Unity output library built at /UnityAndroidLibrary.
 
-### OriginalUnitySample
-Original UAAL sample. To be removed.
+### Swift XCodeProject
+A Swift project version of the original Unity project.
 
 ### UnityProject
 The Unity AR project.
 
 ### XcodeProject
-The Xcode project for the native iOS component. Not currently functional.
+The Xcode project for the native iOS component.
+
+### both.xcworkspace
+The workspace used to build the XcodeProject and the Unity iOS project.
 
 ## Build instructions
+Refer to the below documents for more information.
+https://docs.google.com/document/d/1tgI2oScX4ew7un0UN73C7P6qaddslr3Otf6wwXwVx5Y/edit?usp=sharing
 
-### Android
-
-To build on Android, ensure that the Export Project checkbox is set, and, for convenience, save the output to a folder called UnityAndroidLibrary, in the root of this repository. The Android Studio project is already configured for an app at this location.
-
-You can then open the AndroidProject folder in Android Studio and build it as normal.
-
-To prevent a second app icon from appearing on your home screen, after building in Unity, make sure to remove the `<intent-filter>` block from the Unity player activity in the generated AndroidManifest.xml file in the unity library project. 
+iOS - https://docs.google.com/document/d/1oPv4QD9QwWinN5f2t7xVqZP5BUhvMN-q7vqD9RhV2xw/edit?usp=sharing
+Android - https://docs.google.com/document/d/1R04SxSdrhqRsyKlxdL48RQ93sv4GA58vZiT68IHWVSc/edit?usp=sharing
