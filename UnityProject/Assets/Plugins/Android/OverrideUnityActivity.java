@@ -8,10 +8,6 @@ public abstract class OverrideUnityActivity extends UnityPlayerActivity
 { 
   public static OverrideUnityActivity instance = null;
 
-  protected void UnitySendMessage(String gameObj, String method, String arg) { mUnityPlayer.UnitySendMessage(gameObj,method,arg); }
-
-  protected FrameLayout getUnityFrameLayout() { return mUnityPlayer; }
-
   abstract protected void updateUnityShopItem();
   abstract protected void itemPlacedInAR();
   
