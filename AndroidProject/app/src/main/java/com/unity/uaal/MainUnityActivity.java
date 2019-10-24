@@ -13,7 +13,6 @@ import com.company.product.OverrideUnityActivity;
 public class MainUnityActivity extends OverrideUnityActivity {
 
     ImageButton colorButton;
-
     String currentProduct;
     String currentProductColor;
 
@@ -34,13 +33,13 @@ public class MainUnityActivity extends OverrideUnityActivity {
 
     void handleIntent(Intent intent) {
         if(intent == null || intent.getExtras() == null) return;
-        if(intent.getExtras().containsKey("product") && intent.getExtras().containsKey("productColor"))
-        {
+
+        if(intent.getExtras().containsKey("product") && intent.getExtras().containsKey("productColor")) {
             currentProduct = intent.getStringExtra("product");
             currentProductColor = intent.getStringExtra("productColor");
         }
-        else if(intent.getExtras().containsKey("unload"))
-        {
+
+        if(intent.getExtras().containsKey("unload")) {
             if(mUnityPlayer != null) {
                 finish();
             }
@@ -59,10 +58,10 @@ public class MainUnityActivity extends OverrideUnityActivity {
     protected void itemPlacedInAR() {
         MainUnityActivity.this.runOnUiThread(new Runnable() {
             public void run() {
-                updateUnityShopItem();
-                int colorBut = MainActivity.getNextColorForCurrentItem();
-                colorButton.setColorFilter(colorBut);
+                int colorChangeButtonColor = MainActivity.getNextColorForCurrentItem();
+                colorButton.setColorFilter(colorChangeButtonColor);
                 colorButton.setVisibility(View.VISIBLE);
+                updateUnityShopItem();
             }
         });
     }
@@ -103,8 +102,7 @@ public class MainUnityActivity extends OverrideUnityActivity {
         mUnityPlayer.addView(colorButton, size, size / 2);
     }
 
-    @Override public void onUnityPlayerUnloaded()
-    {
+    @Override public void onUnityPlayerUnloaded() {
         showMainActivity();
     }
 

@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     static int NumberOfColors = 4;
 
     public static int getNextColorForCurrentItem() {
-        return (Colors[(ItemConfigs[CurrentSelectedItem] + 1) % MainActivity.NumberOfColors]);
+        return (Colors[(ItemConfigs[CurrentSelectedItem] + 1) % NumberOfColors]);
     }
 
     public static String getColorStringForCurrentItem() {
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void incCurrentItemConfig() {
-        ItemConfigs[CurrentSelectedItem] = (ItemConfigs[CurrentSelectedItem] + 1) % MainActivity.NumberOfColors;
+        ItemConfigs[CurrentSelectedItem] = (ItemConfigs[CurrentSelectedItem] + 1) % NumberOfColors;
     }
 
     @Override
@@ -112,29 +112,26 @@ public class MainActivity extends AppCompatActivity {
         setIntent(intent);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1) {
+            isUnityLoaded = false;
+            updateUnloadButton();
+        }
+    }
+
     void handleIntent(Intent intent) {
 
         if(intent == null || intent.getExtras() == null) return;
 
-        if(intent.getExtras().containsKey("showMain")){
+        if(intent.getExtras().containsKey("showMain")) {
             updateUnloadButton();
         }
-        if(intent.getExtras().containsKey("productColor"))
-        {
+        if(intent.getExtras().containsKey("productColor")) {
             String currentColorString = intent.getStringExtra("productColor");
             int colorIndex = Arrays.asList(ColorsStrings).indexOf(currentColorString);
             ItemConfigs[CurrentSelectedItem] = colorIndex;
             updateColors();
-        }
-    }
-
-    public void unloadUnity(View view) {
-        if(isUnityLoaded) {
-            Intent intent = new Intent(this, MainUnityActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            intent.putExtra("unload", true);
-            startActivity(intent);
-            isUnityLoaded = false;
         }
     }
 
@@ -149,10 +146,14 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent,1);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1) isUnityLoaded = false;
-        updateUnloadButton();
+    public void unloadUnity(View view) {
+        if(isUnityLoaded) {
+            Intent intent = new Intent(this, MainUnityActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.putExtra("unload", true);
+            startActivity(intent);
+            isUnityLoaded = false;
+        }
     }
 
     // Increments the configuration (color setting) for a given item. 0 = mug, 1 = shirt.
@@ -163,14 +164,12 @@ public class MainActivity extends AppCompatActivity {
         ImageView v = findViewById(itemIndex == 0 ? R.id.mugDisplay : R.id.shirtDisplay);
         v.setImageResource(itemIndex == 0 ? MugImages[config] : ShirtImages[config]);
 
-        // show next color
         ImageView colorChangeButton = findViewById(itemIndex == 0 ? R.id.mugColorChanger : R.id.shirtColorChanger);
         updateColorButton(colorChangeButton, config);
     }
 
     // Update the product image and color change button, called when returning from the UnityActivity
-    public void updateColors()
-    {
+    public void updateColors() {
         ImageView v = findViewById(CurrentSelectedItem == 0 ? R.id.mugDisplay : R.id.shirtDisplay);
         v.setImageResource(CurrentSelectedItem == 0 ? MugImages[ItemConfigs[CurrentSelectedItem]] : ShirtImages[ItemConfigs[CurrentSelectedItem]]);
 
@@ -180,13 +179,12 @@ public class MainActivity extends AppCompatActivity {
 
     // Color change buttons onClick
     private void updateColorButton(ImageView colorButton, int colorIndex) {
-        int colorChangeButtonColorIndex = (colorIndex + 1) % 4;
+        int colorChangeButtonColorIndex = (colorIndex + 1) % NumberOfColors;
         colorButton.setImageResource(colorChangeButtonColorIndex > 0 ? R.drawable.colour_button : R.drawable.colour_button_white);
         colorButton.setColorFilter(colorChangeButtonColorIndex > 0 ? Colors[colorChangeButtonColorIndex] : Color.TRANSPARENT);
     }
 
-    private void updateUnloadButton()
-    {
+    private void updateUnloadButton() {
         View unloadButton = findViewById(R.id.unloadButton);
         if (isUnityLoaded) {
             unloadButton.getBackground().setColorFilter(null);
@@ -197,4 +195,5 @@ public class MainActivity extends AppCompatActivity {
             unloadButton.setEnabled(false);
         }
     }
+
 }
