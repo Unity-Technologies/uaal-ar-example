@@ -8,24 +8,50 @@ import android.view.Display;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-
 import com.company.product.OverrideUnityActivity;
 
 public class MainUnityActivity extends OverrideUnityActivity {
 
     ImageButton colorButton;
 
+    String currentProduct;
+    String currentProductColor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addControlsToUnityFrame();
+        Intent intent = getIntent();
+        handleIntent(intent);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+        setIntent(intent);
+    }
+
+    void handleIntent(Intent intent) {
+        if(intent == null || intent.getExtras() == null) return;
+        if(intent.getExtras().containsKey("product") && intent.getExtras().containsKey("productColor"))
+        {
+            currentProduct = intent.getStringExtra("product");
+            currentProductColor = intent.getStringExtra("productColor");
+        }
+        else if(intent.getExtras().containsKey("unload"))
+        {
+            if(mUnityPlayer != null) {
+                finish();
+            }
+        }
     }
 
     // Send messages to Unity to update the AR item.
     @Override
     protected void updateUnityShopItem() {
-        UnitySendMessage("AR Session Origin", "SetProduct", Integer.toString(MainActivity.CurrentSelectedItem));
-        UnitySendMessage("AR Session Origin", "SetColor", MainActivity.GetColorStringForCurrentItem());
+        mUnityPlayer.UnitySendMessage("AR Session Origin", "SetProduct", currentProduct);
+        mUnityPlayer.UnitySendMessage("AR Session Origin", "SetColor",currentProductColor);
     }
 
     // Called from the Unity Activity. Makes the color change button visible.
@@ -33,7 +59,9 @@ public class MainUnityActivity extends OverrideUnityActivity {
     protected void itemPlacedInAR() {
         MainUnityActivity.this.runOnUiThread(new Runnable() {
             public void run() {
-                colorButton.setColorFilter(MainActivity.GetNextColorForCurrentItem());
+                updateUnityShopItem();
+                int colorBut = MainActivity.getNextColorForCurrentItem();
+                colorButton.setColorFilter(colorBut);
                 colorButton.setVisibility(View.VISIBLE);
             }
         });
@@ -57,34 +85,43 @@ public class MainUnityActivity extends OverrideUnityActivity {
                 colorButton.setVisibility(View.GONE);
             }
         });
-        getUnityFrameLayout().addView(backButton, size, size / 2);
-
+        mUnityPlayer.addView(backButton, size, size / 2);
 
         colorButton = new ImageButton(this);
         colorButton.setImageResource(R.drawable.button_colour);
         colorButton.setBackgroundColor(Color.TRANSPARENT);
         colorButton.setScaleType(ImageView.ScaleType.FIT_START);
         colorButton.setX(point.x - size * 0.8f);
-        colorButton.setColorFilter(MainActivity.GetNextColorForCurrentItem());
+        colorButton.setColorFilter(MainActivity.getNextColorForCurrentItem());
         colorButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onColorButtonPressed();
             }
         });
         colorButton.setVisibility(View.GONE);
-        getUnityFrameLayout().addView(colorButton, size, size / 2);
+
+        mUnityPlayer.addView(colorButton, size, size / 2);
+    }
+
+    @Override public void onUnityPlayerUnloaded()
+    {
+        showMainActivity();
     }
 
     // Return to the MainActivity. Sends a message to the Unity Activity to clear the placed AR item.
     private void showMainActivity() {
-        UnitySendMessage("AR Session Origin", "ClearPlacedItem", "");
+        mUnityPlayer.UnitySendMessage("AR Session Origin", "ClearPlacedItem", "");
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("showMain",true);
+        intent.putExtra("productColor",currentProductColor);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 
     private void onColorButtonPressed() {
-        MainActivity.IncCurrentItemConfig();
-        colorButton.setColorFilter(MainActivity.GetNextColorForCurrentItem());
+        MainActivity.incCurrentItemConfig();
+        currentProductColor = MainActivity.getColorStringForCurrentItem();
+        colorButton.setColorFilter(MainActivity.getNextColorForCurrentItem());
         updateUnityShopItem();
     }
 }

@@ -8,10 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     static int CurrentSelectedItem; // 0 = mug, 1 = shirt.
-
+    boolean isUnityLoaded = false;
     // Shop item color configurations. 0 = mug, 1 = shirt.
     static int[] ItemConfigs = new int[2];
 
@@ -34,15 +35,15 @@ public class MainActivity extends AppCompatActivity {
 
     static int NumberOfColors = 4;
 
-    public static int GetNextColorForCurrentItem() {
-        return Colors[(ItemConfigs[CurrentSelectedItem] + 1) % MainActivity.NumberOfColors];
+    public static int getNextColorForCurrentItem() {
+        return (Colors[(ItemConfigs[CurrentSelectedItem] + 1) % MainActivity.NumberOfColors]);
     }
 
-    public static String GetColorStringForCurrentItem() {
+    public static String getColorStringForCurrentItem() {
         return ColorsStrings[ItemConfigs[CurrentSelectedItem]];
     }
 
-    public static void IncCurrentItemConfig() {
+    public static void incCurrentItemConfig() {
         ItemConfigs[CurrentSelectedItem] = (ItemConfigs[CurrentSelectedItem] + 1) % MainActivity.NumberOfColors;
     }
 
@@ -73,22 +74,22 @@ public class MainActivity extends AppCompatActivity {
         ImageView mugColorButton = findViewById(R.id.mugColorChanger);
         mugColorButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                IncConfig(0);
+                incConfig(0);
             }
         });
         ImageView mugDisplay = findViewById(R.id.mugDisplay);
         mugDisplay.setImageResource(MugImages[ItemConfigs[0]]);
-        UpdateColorButton(mugColorButton, ItemConfigs[0]);
+        updateColorButton(mugColorButton, ItemConfigs[0]);
 
         ImageView shirtColorButton = findViewById(R.id.shirtColorChanger);
         shirtColorButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                IncConfig(1);
+                incConfig(1);
             }
         });
         ImageView shirtDisplay = findViewById(R.id.shirtDisplay);
         shirtDisplay.setImageResource(ShirtImages[ItemConfigs[1]]);
-        UpdateColorButton(shirtColorButton, ItemConfigs[1]);
+        updateColorButton(shirtColorButton, ItemConfigs[1]);
 
         View unloadButton = findViewById(R.id.unloadButton);
         if (MainUnityActivity.instance == null) {
@@ -99,38 +100,101 @@ public class MainActivity extends AppCompatActivity {
             unloadButton.getBackground().setColorFilter(null);
             unloadButton.setEnabled(true);
         }
+
+        Intent intent = getIntent();
+        handleIntent(intent);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+        setIntent(intent);
+    }
+
+    void handleIntent(Intent intent) {
+
+        if(intent == null || intent.getExtras() == null) return;
+
+        if(intent.getExtras().containsKey("showMain")){
+            updateUnloadButton();
+        }
+        if(intent.getExtras().containsKey("productColor"))
+        {
+            String currentColorString = intent.getStringExtra("productColor");
+            int colorIndex = Arrays.asList(ColorsStrings).indexOf(currentColorString);
+            ItemConfigs[CurrentSelectedItem] = colorIndex;
+            updateColors();
+        }
     }
 
     public void unloadUnity(View view) {
-        if(MainUnityActivity.instance != null)
-        {
-            MainUnityActivity.instance.finish();
+        if(isUnityLoaded) {
+            Intent intent = new Intent(this, MainUnityActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.putExtra("unload", true);
+            startActivity(intent);
+            isUnityLoaded = false;
         }
     }
 
     // Start the Unity Activity.
     private void selectShopItem(int i) {
         CurrentSelectedItem = i;
+        isUnityLoaded = true;
         Intent intent = new Intent(this, MainUnityActivity.class);
-        startActivity(intent);
+        intent.putExtra("product",CurrentSelectedItem+"");
+        intent.putExtra("productColor", getColorStringForCurrentItem());
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityForResult(intent,1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1) isUnityLoaded = false;
+        updateUnloadButton();
     }
 
     // Increments the configuration (color setting) for a given item. 0 = mug, 1 = shirt.
-    private void IncConfig(int itemIndex) {
+    public void incConfig(int itemIndex) {
         int config = (ItemConfigs[itemIndex] + 1) % NumberOfColors;
         ItemConfigs[itemIndex] = config;
 
         ImageView v = findViewById(itemIndex == 0 ? R.id.mugDisplay : R.id.shirtDisplay);
         v.setImageResource(itemIndex == 0 ? MugImages[config] : ShirtImages[config]);
 
-        // show next colour
+        // show next color
         ImageView colorChangeButton = findViewById(itemIndex == 0 ? R.id.mugColorChanger : R.id.shirtColorChanger);
-        UpdateColorButton(colorChangeButton, config);
+        updateColorButton(colorChangeButton, config);
     }
 
-    private void UpdateColorButton(ImageView colorButton, int colorIndex) {
-        int next = (colorIndex + 1) % 4;
-        colorButton.setImageResource(next > 0 ? R.drawable.colour_button : R.drawable.colour_button_white);
-        colorButton.setColorFilter(next > 0 ? Colors[next] : Color.TRANSPARENT);
+    // Update the product image and color change button, called when returning from the UnityActivity
+    public void updateColors()
+    {
+        ImageView v = findViewById(CurrentSelectedItem == 0 ? R.id.mugDisplay : R.id.shirtDisplay);
+        v.setImageResource(CurrentSelectedItem == 0 ? MugImages[ItemConfigs[CurrentSelectedItem]] : ShirtImages[ItemConfigs[CurrentSelectedItem]]);
+
+        ImageView colorChangeButton = findViewById(CurrentSelectedItem == 0 ? R.id.mugColorChanger : R.id.shirtColorChanger);
+        updateColorButton(colorChangeButton, ItemConfigs[CurrentSelectedItem]);
+    }
+
+    // Color change buttons onClick
+    private void updateColorButton(ImageView colorButton, int colorIndex) {
+        int colorChangeButtonColorIndex = (colorIndex + 1) % 4;
+        colorButton.setImageResource(colorChangeButtonColorIndex > 0 ? R.drawable.colour_button : R.drawable.colour_button_white);
+        colorButton.setColorFilter(colorChangeButtonColorIndex > 0 ? Colors[colorChangeButtonColorIndex] : Color.TRANSPARENT);
+    }
+
+    private void updateUnloadButton()
+    {
+        View unloadButton = findViewById(R.id.unloadButton);
+        if (isUnityLoaded) {
+            unloadButton.getBackground().setColorFilter(null);
+            unloadButton.setEnabled(true);
+        }
+        else {
+            unloadButton.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+            unloadButton.setEnabled(false);
+        }
     }
 }
