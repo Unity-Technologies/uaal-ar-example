@@ -15,6 +15,7 @@ public class MainUnityActivity extends OverrideUnityActivity {
     ImageButton colorButton;
     String currentProduct;
     String currentProductColor;
+    int nextProductColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +35,12 @@ public class MainUnityActivity extends OverrideUnityActivity {
     void handleIntent(Intent intent) {
         if(intent == null || intent.getExtras() == null) return;
 
-        if(intent.getExtras().containsKey("product") && intent.getExtras().containsKey("productColor")) {
+        if(intent.getExtras().containsKey("product") && intent.getExtras().containsKey("productColor")
+                && intent.getExtras().containsKey("nextProductColor")) {
+
             currentProduct = intent.getStringExtra("product");
             currentProductColor = intent.getStringExtra("productColor");
+            nextProductColor = Integer.parseInt(intent.getStringExtra("nextProductColor"));
         }
 
         if(intent.getExtras().containsKey("unload")) {
@@ -58,8 +62,7 @@ public class MainUnityActivity extends OverrideUnityActivity {
     protected void itemPlacedInAR() {
         MainUnityActivity.this.runOnUiThread(new Runnable() {
             public void run() {
-                int colorChangeButtonColor = MainActivity.getNextColorForCurrentItem();
-                colorButton.setColorFilter(colorChangeButtonColor);
+                colorButton.setColorFilter((nextProductColor));
                 colorButton.setVisibility(View.VISIBLE);
                 updateUnityShopItem();
             }
