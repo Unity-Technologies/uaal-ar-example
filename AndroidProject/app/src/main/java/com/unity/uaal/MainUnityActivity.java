@@ -45,6 +45,7 @@ public class MainUnityActivity extends OverrideUnityActivity {
 
         if(intent.getExtras().containsKey("unload")) {
             if(mUnityPlayer != null) {
+                mUnityPlayer.unload();
                 finish();
             }
         }
@@ -84,6 +85,7 @@ public class MainUnityActivity extends OverrideUnityActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showMainActivity();
+
                 colorButton.setVisibility(View.GONE);
             }
         });
