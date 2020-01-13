@@ -28,7 +28,7 @@ Refer to the below documents for more information.
 
 Unity as a library 
 
-Android https://docs.unity3d.com/2019.3/Documentation/Manual/UnityasaLibrary-Android.html
+Android - https://docs.unity3d.com/2019.3/Documentation/Manual/UnityasaLibrary-Android.html
 
 iOS - https://docs.unity3d.com/2019.3/Documentation/Manual/UnityasaLibrary-iOS.html
 
