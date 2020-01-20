@@ -46,7 +46,6 @@ public class MainUnityActivity extends OverrideUnityActivity {
         if(intent.getExtras().containsKey("unload")) {
             if(mUnityPlayer != null) {
                 mUnityPlayer.unload();
-                finish();
             }
         }
     }
@@ -80,7 +79,8 @@ public class MainUnityActivity extends OverrideUnityActivity {
         backButton.setImageResource(R.drawable.button_back);
         backButton.setBackgroundColor(Color.TRANSPARENT);
         backButton.setScaleType(ImageView.ScaleType.FIT_START);
-        backButton.setX(10);
+        backButton.setX(10f);
+        backButton.setY(25f);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -96,6 +96,7 @@ public class MainUnityActivity extends OverrideUnityActivity {
         colorButton.setBackgroundColor(Color.TRANSPARENT);
         colorButton.setScaleType(ImageView.ScaleType.FIT_START);
         colorButton.setX(point.x - size * 0.8f);
+        colorButton.setY(25f);
         colorButton.setColorFilter(MainActivity.getNextColorForCurrentItem());
         colorButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
