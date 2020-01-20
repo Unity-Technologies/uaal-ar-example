@@ -11,9 +11,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
         android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -46,6 +45,7 @@
                     android:id="@+id/mugDisplay"
                     android:layout_width="match_parent"
                     android:layout_height="146dp"
+                    android:contentDescription="@string/product_preview_image"
                     app:srcCompat="@drawable/mugwhite" />
 
                 <LinearLayout
@@ -58,8 +58,9 @@
                         android:layout_width="119dp"
                         android:layout_height="35dp"
                         android:layout_weight="1"
-                        android:paddingLeft="5dp"
-                        android:text="Mug"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="0dp"
+                        android:text="@string/mug"
                         android:textAlignment="viewStart"
                         android:textColor="#010000"
                         android:textSize="18sp"
@@ -71,6 +72,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00FFFFFF"
+                        android:contentDescription="@string/change_product_color_button"
                         android:scaleType="fitStart"
                         app:srcCompat="@drawable/colour_button_white" />
                 </LinearLayout>
@@ -80,7 +82,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/colorPrimary"
-                    android:text="AR Preview"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/ar_preview"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@android:color/white" />
 
             </LinearLayout>
@@ -106,6 +110,7 @@
                     android:id="@+id/shirtDisplay"
                     android:layout_width="match_parent"
                     android:layout_height="146dp"
+                    android:contentDescription="@string/product_preview_image"
                     app:srcCompat="@drawable/shirtwhite" />
 
                 <LinearLayout
@@ -118,8 +123,9 @@
                         android:layout_width="119dp"
                         android:layout_height="35dp"
                         android:layout_weight="1"
-                        android:paddingLeft="5dp"
-                        android:text="Shirt"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="0dp"
+                        android:text="@string/shirt"
                         android:textAlignment="viewStart"
                         android:textColor="#000000"
                         android:textSize="18sp"
@@ -131,6 +137,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00FFFFFF"
+                        android:contentDescription="@string/change_product_color_button"
                         android:scaleType="fitStart"
                         app:srcCompat="@drawable/colour_button_white" />
 
@@ -141,7 +148,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/colorPrimary"
-                    android:text="AR Preview"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/ar_preview"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@android:color/white" />
 
             </LinearLayout>
@@ -171,7 +180,8 @@
             android:onClick="unloadUnity"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
-            android:text="Unload Unity"
+            android:text="@string/unload_unity"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@android:color/white" />
 
     </LinearLayout>

@@ -2,4 +2,10 @@
     <string name="app_name">UAAL</string>
     <string name="action_settings">Settings</string>
     <string name="game_view_content_description">Game view</string>
+    <string name="ar_preview">Show in AR</string>
+    <string name="unload_unity">Unload Unity</string>
+    <string name="product_preview_image">Product preview image</string>
+    <string name="change_product_color_button">Change product color button</string>
+    <string name="mug">Mug</string>
+    <string name="shirt">Shirt</string>
 </resources>
