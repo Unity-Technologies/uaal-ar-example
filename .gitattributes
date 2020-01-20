@@ -1,13 +1,11 @@
 # Don't touch EOLs
 * -text
-
 # Actual text files
 *.cs diff=csharp 
 *.cginc
 *.shader
 *.bat
 *.sh
-
 # Unity files
 *.unity merge=unityyamlmerge
 *.prefab merge=unityyamlmerge
@@ -26,10 +24,8 @@
 *.spriteatlas merge=unityyamlmerge
 *.mixer merge=unityyamlmerge
 *.guiskin merge=unityyamlmerge
-*.asset merge=unityyamlmerge 
-
+*.asset filter=lfs diff=lfs merge=lfs -text
 ## git-lfs ##
-
 # Textures
 *.bmp filter=lfs diff=lfs merge=lfs
 *.jpg filter=lfs diff=lfs merge=lfs
@@ -41,23 +37,19 @@
 *.psd filter=lfs diff=lfs merge=lfs
 *.exr filter=lfs diff=lfs merge=lfs
 *.dds filter=lfs diff=lfs merge=lfs
-
 # Audio
 *.mp3 filter=lfs diff=lfs merge=lfs
 *.wav filter=lfs diff=lfs merge=lfs
 *.ogg filter=lfs diff=lfs merge=lfs
 *.aif filter=lfs diff=lfs merge=lfs
-
 # Video
 *.mp4 filter=lfs diff=lfs merge=lfs
 *.mov filter=lfs diff=lfs merge=lfs
 *.avi filter=lfs diff=lfs merge=lfs
-
 # Meshes
 *.fbx filter=lfs diff=lfs merge=lfs
 *.blend filter=lfs diff=lfs merge=lfs
 *.obj filter=lfs diff=lfs merge=lfs
-
 # Other binaries
 *.a filter=lfs diff=lfs merge=lfs
 *.exe filter=lfs diff=lfs merge=lfs
@@ -68,3 +60,4 @@
 *.unitypackage filter=lfs diff=lfs merge=lfs
 *.ttf filter=lfs diff=lfs merge=lfs
 *.assetbundle filter=lfs diff=lfs merge=lfs
+*.tff filter=lfs diff=lfs merge=lfs -text
