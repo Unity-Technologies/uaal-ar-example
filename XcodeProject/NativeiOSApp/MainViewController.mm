@@ -251,7 +251,7 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     [self.BackBtn setImage:[UIImage imageNamed:backButtonImagePath] forState:UIControlStateNormal];
     [self.BackBtn setTitle: @"BACK" forState: UIControlStateNormal];
     self.BackBtn.frame = CGRectMake(0, 0, 200, 110);
-    self.BackBtn.center = CGPointMake(80, 40);
+    self.BackBtn.center = CGPointMake(80, 50);
     self.BackBtn.backgroundColor = UIColor.clearColor;
     self.BackBtn.tintColor = UIColor.whiteColor;
     [view addSubview: self.BackBtn];
@@ -262,7 +262,7 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
 
     [self.ColorBtn setTitle: @"COLOR" forState: UIControlStateNormal];
     self.ColorBtn.frame = CGRectMake(0, 0, 230, 110);
-    self.ColorBtn.center = CGPointMake(280, 40);
+    self.ColorBtn.center = CGPointMake(280, 50);
     self.ColorBtn.backgroundColor = UIColor.clearColor;
     [view addSubview: self.ColorBtn];
     [self.ColorBtn addTarget: self action: @selector(changeColor) forControlEvents: UIControlEventPrimaryActionTriggered];
