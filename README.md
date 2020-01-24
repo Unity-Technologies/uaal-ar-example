@@ -1,4 +1,4 @@
-UAAL AR demo
+Using Unity as a Library AR demo
 ============
 
 This repository represents an example of using Unity's AR features in a library as part of a native iOS or Android app.
@@ -24,24 +24,16 @@ The Xcode project for the native iOS component.
 The workspace used to build the XcodeProject and the Unity iOS project.
 
 ## Build instructions
-Refer to the below documents for more information.
+Refer to Unity's documentation for more information.
 
-Unity as a library 
+* Unity as a library general info https://docs.unity3d.com/2019.3/Documentation/Manual/UnityasaLibrary.html 
+* Android [details](https://docs.unity3d.com/2019.3/Documentation/Manual/UnityasaLibrary-Android.html), [sample]( https://github.com/Unity-Technologies/uaal-example/blob/master/docs/android.md)
+* iOS [details](https://docs.unity3d.com/2019.3/Documentation/Manual/UnityasaLibrary-iOS.html). [sample](iOS - https://github.com/Unity-Technologies/uaal-example/blob/master/docs/ios.md)
 
-Android - https://docs.unity3d.com/2019.3/Documentation/Manual/UnityasaLibrary-Android.html
-
-iOS - https://docs.unity3d.com/2019.3/Documentation/Manual/UnityasaLibrary-iOS.html
-
-Uaal Example
-
-Android - https://github.com/Unity-Technologies/uaal-example/blob/master/docs/android.md
-
-iOS - https://github.com/Unity-Technologies/uaal-example/blob/master/docs/ios.md
-
-## Setting up the Unity as a library example for Android and iOS
+## Setting up the Unity as a library AR example for Android and iOS
 ### Application Walkthrough
 
-This is the Unity as a library demo landing page.
+This is the Unity as a library demo menu screen:
 
 <img src="https://github.com/Unity-Technologies/uaal-ar-example/blob/master/docs/images/Shopfront.png" width="250" height="444">
 
@@ -66,9 +58,7 @@ The back button can be used to return to the shopfront. The Unload Unity button 
 
 ## How to setup the demo in iOS and Android
 
-### Refer to this post for more information
-
-https://forum.unity.com/threads/using-unity-as-a-library-in-native-ios-android-apps.685195/
+Refer to "Build Instructions" section above for setup details.
 
 ## Code snippets/examples 
 ### Launching Unity Activity
