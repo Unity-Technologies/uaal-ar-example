@@ -26,6 +26,9 @@ The workspace used to build the XcodeProject and the Unity iOS project.
 ## Build instructions
 Refer to the below documents for more information.
 
+Setting up the Unity as a library example for Android and iOS
+https://docs.google.com/document/u/1/d/1tgI2oScX4ew7un0UN73C7P6qaddslr3Otf6wwXwVx5Y
+
 Unity as a library 
 
 Android - https://docs.unity3d.com/2019.3/Documentation/Manual/UnityasaLibrary-Android.html
