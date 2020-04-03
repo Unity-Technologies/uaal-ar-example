@@ -1,6 +1,7 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 #if UNITY_IOS
 using System.Runtime.InteropServices;
 
@@ -52,6 +53,8 @@ public class ProductManager : MonoBehaviour
     [SerializeField] 
     TMP_Text m_ProductText;
 
+    private ARSession m_ArSession;
+
     private int m_SelectedIndex;
     ObjectPlacementHandler m_CurrentObject;
 
@@ -59,6 +62,8 @@ public class ProductManager : MonoBehaviour
 
     protected void OnEnable()
     {
+        m_ArSession = GameObject.Find("AR Session").GetComponent<ARSession>();
+
         if (m_PlaceSingleObjectOnPlane != null)
         {
             m_PlaceSingleObjectOnPlane.ObjectPlaced += OnObjectedPlaced;
@@ -75,6 +80,14 @@ public class ProductManager : MonoBehaviour
         {
             m_PlaceSingleObjectOnPlane.ObjectPlaced -= OnObjectedPlaced;
         }
+
+        m_ArSession = null;
+    }
+
+    public void PauseARSession(string pause)
+    {
+        //m_ArSession.attemptUpdate = string.Equals(pause, "false");
+        m_ArSession.enabled = string.Equals(pause, "false");;
     }
 
     public void ClearPlacedItem()

@@ -151,6 +151,9 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     
     [[self ufw] sendMessageToGOWithName: "AR Session Origin" functionName: "ClearPlacedItem" message:""];
     self.ColorBtn.hidden = true;
+    
+    // We pause AR system routines as they are unnecessary when view is taken by host application
+    [self pauseARSession:true];
 }
 
 //Changes the tint of the color select buttons in the main view.
@@ -225,11 +228,17 @@ NSArray *colorStringArray = @[@"White", @"Magenta", @"Cyan", @"Lime"];
     [self initUnity];
 }
 
+// Called to temporary suspend or resume AR activities
+- (void) pauseARSession:(BOOL)pause {
+    [[self ufw] sendMessageToGOWithName: "AR Session Origin" functionName: "PauseARSession" message:(pause ? "true" : "false")];
+}
+
 //Called from "Show in AR" buttons to initialize unity, or update item being viewed.
 - (void)initUnity {
     if([self unityIsInitialized]) {
-         [[self ufw] showUnityWindow];
-         [self updateUnityShopItem];
+        [self pauseARSession:false];
+        [[self ufw] showUnityWindow];
+        [self updateUnityShopItem];
         return;
     }
     
