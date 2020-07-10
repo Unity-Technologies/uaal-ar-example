@@ -19,7 +19,7 @@ Refer to Unity's documentation for more information.
 
 * Unity as a library general info https://docs.unity3d.com/2019.3/Documentation/Manual/UnityasaLibrary.html 
 * Android [details](https://docs.unity3d.com/2019.3/Documentation/Manual/UnityasaLibrary-Android.html), [sample]( https://github.com/Unity-Technologies/uaal-example/blob/master/docs/android.md)
-* iOS [details](https://docs.unity3d.com/2019.3/Documentation/Manual/UnityasaLibrary-iOS.html). [sample](iOS - https://github.com/Unity-Technologies/uaal-example/blob/master/docs/ios.md)
+* iOS [details](https://docs.unity3d.com/2019.3/Documentation/Manual/UnityasaLibrary-iOS.html). [sample]( https://github.com/Unity-Technologies/uaal-example/blob/master/docs/ios.md)
 
 ## Setting up the Unity as a library AR example for Android and iOS
 ### Application Walkthrough
