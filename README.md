@@ -9,7 +9,6 @@ Minimal Unity version 2019.3.0f1
 ## Folder structure
 
 * **AndroidProject**: The Android Studio project for the native Android component. Already preconfigured for a Unity output library built at /UnityAndroidLibrary.
-* **Swift XCodeProject**: A Swift project version of the original Unity project.
 * **UnityProject**: The Unity AR project.
 * **XcodeProject**: The Xcode project for the native iOS component.
 * **both.xcworkspace**: The workspace used to build the XcodeProject and the Unity iOS project.
