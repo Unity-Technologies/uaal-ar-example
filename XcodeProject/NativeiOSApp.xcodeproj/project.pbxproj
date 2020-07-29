@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8B26022B22C203F30075EBAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D15FC482264A1600006315A /* Main.storyboard */; };
-		8B2D95C622C0C316006EE1AB /* UnityFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2D95C422C0C316006EE1AB /* UnityFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8BB25C3822C379110000E843 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 8BB25C3722C379110000E843 /* Images */; };
 		9D15FC472264A1600006315A /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9D15FC462264A1600006315A /* MainViewController.mm */; };
 		9D15FC4C2264A1600006315A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D15FC4B2264A1600006315A /* Assets.xcassets */; };
@@ -23,7 +22,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8B2D95C622C0C316006EE1AB /* UnityFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -31,7 +29,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8B2D95C422C0C316006EE1AB /* UnityFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UnityFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B2D95C822C0C461006EE1AB /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
 		8BB25C3722C379110000E843 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		9D15FC3F2264A1600006315A /* NativeiOSApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NativeiOSApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,7 +38,6 @@
 		9D15FC4E2264A1600006315A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9D15FC502264A1600006315A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D78DAFC2265A7FC00274039 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		9DDA50EF2265A85B00B39A4C /* README.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = README.rtf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,8 +55,6 @@
 		9D15FC362264A15F0006315A = {
 			isa = PBXGroup;
 			children = (
-				8B2D95C422C0C316006EE1AB /* UnityFramework.framework */,
-				9DDA50EF2265A85B00B39A4C /* README.rtf */,
 				9D15FC412264A1600006315A /* NativeiOSApp */,
 				9D15FC402264A1600006315A /* Products */,
 				9D78DAFB2265A7FC00274039 /* Frameworks */,
